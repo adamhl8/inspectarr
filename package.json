@@ -1,0 +1,43 @@
+{
+  "name": "inspectarr",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A CLI tool for querying and inspecting the media in your Radarr and Sonarr instances",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adamhl8/inspectarr"
+  },
+  "homepage": "https://github.com/adamhl8/inspectarr",
+  "bugs": {
+    "url": "https://github.com/adamhl8/inspectarr/issues"
+  },
+  "author": {
+    "email": "adamhl@pm.me",
+    "name": "Adam Langbert",
+    "url": "https://github.com/adamhl8"
+  },
+  "license": "MIT",
+  "keywords": ["servarr", "radarr", "sonarr", "arr", "inspect", "query", "filter", "data"],
+  "scripts": {
+    "knip": "knip-bun",
+    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && tsc --noEmit && biome check --write && bun knip",
+    "postinstall": "cp -r node_modules/tablemark tablemark && cd tablemark && bun i --silent --ignore-scripts && bun run --silent build && cp -r dist/ ../node_modules/tablemark/ && rm -rf ../tablemark",
+    "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true"
+  },
+  "dependencies": {
+    "cleye": "^1.3.4",
+    "filterql": "^2.0.1",
+    "ky": "^1.9.0",
+    "tablemark": "github:haltcase/tablemark#v4",
+    "ts-explicit-errors": "^3.0.0"
+  },
+  "devDependencies": {
+    "@adamhl8/configs": "^0.11.1",
+    "@biomejs/biome": "^2.2.2",
+    "@types/bun": "^1.2.21",
+    "knip": "^5.63.0",
+    "markdown-toc": "^1.2.0",
+    "type-fest": "^4.41.0",
+    "typescript": "^5.9.2"
+  }
+}
