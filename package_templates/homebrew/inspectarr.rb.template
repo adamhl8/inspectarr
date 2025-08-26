@@ -1,0 +1,32 @@
+class Inspectarr < Formula
+  desc "CLI tool for querying and inspecting the media in your Radarr and Sonarr instances"
+  homepage "https://github.com/adamhl8/inspectarr"
+  license "MIT"
+  version "${{version}}"
+
+  on_macos do
+    on_arm do
+      url "https://github.com/adamhl8/inspectarr/releases/download/v${{version}}/inspectarr-macos-arm64"
+      sha256 "${{inspectarr-macos-arm64-hash}}"
+    end
+    on_intel do
+      url "https://github.com/adamhl8/inspectarr/releases/download/v${{version}}/inspectarr-macos-x64"
+      sha256 "${{inspectarr-macos-x64-hash}}"
+    end
+  end
+
+  on_linux do
+    on_arm do
+      url "https://github.com/adamhl8/inspectarr/releases/download/v${{version}}/inspectarr-linux-arm64"
+      sha256 "${{inspectarr-linux-arm64-hash}}"
+    end
+    on_intel do
+      url "https://github.com/adamhl8/inspectarr/releases/download/v${{version}}/inspectarr-linux-x64"
+      sha256 "${{inspectarr-linux-x64-hash}}"
+    end
+  end
+
+  def install
+    bin.install Dir["inspectarr-*"].first => "inspectarr"
+  end
+end

@@ -46,12 +46,20 @@ jobs:
 
   release:
     needs: build
-    if: github.ref_type == 'tag'
+    # if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     permissions:
       contents: write
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -66,3 +74,38 @@ jobs:
             ./artifacts/inspectarr-macos-arm64/inspectarr-macos-arm64
             ./artifacts/inspectarr-linux-x64/inspectarr-linux-x64
             ./artifacts/inspectarr-linux-arm64/inspectarr-linux-arm64
+
+      - name: Process package templates
+        run: |
+          bun ./package_templates/template-processor.ts "${GITHUB_REF_NAME#v}"
+
+      - name: Set up git
+        run: |
+          git config --global user.email adamhl@pm.me
+          git config --global user.name "GitHub Actions"
+
+      - name: Update homebrew tap
+        env:
+          INSPECTARR_PACKAGE_TOKEN: ${{ secrets.INSPECTARR_PACKAGE_TOKEN }}
+        run: |
+          REPO="https://adamhl8:${INSPECTARR_PACKAGE_TOKEN}@github.com/adamhl8/homebrew-inspectarr.git"
+          CLONE_DIR=$(mktemp -d)
+          git clone --depth 1 "${REPO}" "${CLONE_DIR}"
+          cp ./package_templates/homebrew/inspectarr.rb "${CLONE_DIR}/Formula/inspectarr.rb"
+          cd "${CLONE_DIR}"
+          git add -A
+          git commit -m "${{ github.ref_name }}"
+          git push "${REPO}"
+
+      - name: Update scoop bucket
+        env:
+          INSPECTARR_PACKAGE_TOKEN: ${{ secrets.INSPECTARR_PACKAGE_TOKEN }}
+        run: |
+          REPO="https://adamhl8:${INSPECTARR_PACKAGE_TOKEN}@github.com/adamhl8/scoop-inspectarr.git"
+          CLONE_DIR=$(mktemp -d)
+          git clone --depth 1 "${REPO}" "${CLONE_DIR}"
+          cp ./package_templates/scoop/inspectarr.json "${CLONE_DIR}/inspectarr.json"
+          cd "${CLONE_DIR}"
+          git add -A
+          git commit -m "${{ github.ref_name }}"
+          git push "${REPO}"

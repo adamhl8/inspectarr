@@ -1,0 +1,21 @@
+{
+  "version": "${{version}}",
+  "description": "CLI tool for querying and inspecting the media in your Radarr and Sonarr instances",
+  "homepage": "https://github.com/adamhl8/inspectarr",
+  "license": "MIT",
+  "architecture": {
+    "64bit": {
+      "url": "https://github.com/adamhl8/inspectarr/releases/download/v${{version}}/inspectarr-windows-x64.exe",
+      "bin": [["inspectarr-windows-x64.exe", "inspectarr"]],
+      "hash": "${{inspectarr-windows-x64.exe-hash}}"
+    }
+  },
+  "checkver": "github",
+  "autoupdate": {
+    "architecture": {
+      "64bit": {
+        "url": "https://github.com/adamhl8/inspectarr/releases/download/v$version/inspectarr-windows-x64.exe"
+      }
+    }
+  }
+}
