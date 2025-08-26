@@ -99,7 +99,7 @@ inspectarr sonarr 'title i*= "star wars"'
 # display media released after 1990 (media year is contained in the title column), then sort by title
 inspectarr radarr 'title *= 1990 | SORT title'
 
-# displayed media where monitored is true and where the video codec is x265 (contains '265')
+# display media where monitored is true and where the video codec is x265 (contains '265')
 inspectarr radarr 'monitored && videoCodec *= 265'
 ```
 
