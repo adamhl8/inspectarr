@@ -8623,9 +8623,9 @@ export interface components {
       specialAbsoluteEpisodeNumbers?: number[] | null
       airDate?: string | null
       languages?: components["schemas"]["Language"][] | null
-      fullseason: boolean
-      isPartialseason: boolean
-      isMultiseason: boolean
+      fullSeason?: boolean
+      isPartialSeason?: boolean
+      isMultiSeason?: boolean
       isSeasonExtra?: boolean
       isSplitEpisode?: boolean
       isMiniSeries?: boolean
@@ -8863,7 +8863,7 @@ export interface components {
       subGroup?: string | null
       releaseHash?: string | null
       title?: string | null
-      fullseason: boolean
+      fullSeason?: boolean
       sceneSource?: boolean
       /** Format: int32 */
       seasonNumber?: number

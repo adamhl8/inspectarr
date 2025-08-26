@@ -5,11 +5,10 @@
       "name": "inspectarr",
       "dependencies": {
         "cleye": "^1.3.4",
-        "filterql": "^2.0.1",
+        "filterql": "^2.0.2",
         "ky": "^1.9.0",
         "tablemark": "github:haltcase/tablemark#v4",
         "ts-explicit-errors": "^3.0.0",
-        "wordwrapjs": "^5.1.0",
       },
       "devDependencies": {
         "@adamhl8/configs": "^0.11.1",
@@ -167,7 +166,7 @@
 
     "fill-range": ["fill-range@2.2.4", "", { "dependencies": { "is-number": "^2.1.0", "isobject": "^2.0.0", "randomatic": "^3.0.0", "repeat-element": "^1.1.2", "repeat-string": "^1.5.2" } }, "sha512-cnrcCbj01+j2gTG921VZPnHbjmdAf8oQV/iGeV2kZxGSyfYjjTyY79ErsK1WJWMpw6DaApEX72binqJE+/d+5Q=="],
 
-    "filterql": ["filterql@2.0.1", "", {}, "sha512-tQMDwUoTG0KePpbe0FcVjbuxStcGhuo81NXEzPRdG+M6V5LoGddHw5tizhs3xZ7TZn6Hy4uqBgYAMMTiz4oBog=="],
+    "filterql": ["filterql@2.0.2", "", {}, "sha512-dyhcmT5uHHU1lyojPT6WMsrzjH3ByeJxbxrYTgueYBoGoezFBgtgeHcNFOOhItpskF+/pUmHLHDvXhLcP090QQ=="],
 
     "for-in": ["for-in@1.0.2", "", {}, "sha512-7EwmXrOjyL+ChxMhmG5lnW9MPt1aIeZEwKhQzoBUdTV0N3zuwWDZYVJatDvZ2OyzPUvdIAZDsCetk3coyMfcnQ=="],
 

@@ -96,8 +96,8 @@ inspectarr sonarr 'releaseGroup == AMZN || releaseGroup == NF'
 # display media where the title contains 'star wars' (case-insensitive)
 inspectarr sonarr 'title i*= "star wars"'
 
-# display media released after 1990 (media year is contained in the title column), then sort by title
-inspectarr radarr 'title *= 1990 | SORT title'
+# display media released after 1990, then sort by title
+inspectarr radarr 'title *= "(1990)" | SORT title'
 
 # display media where monitored is true and where the video codec is x265 (contains '265')
 inspectarr radarr 'monitored && videoCodec *= 265'
