@@ -2,7 +2,6 @@ import { command } from "cleye"
 import type { Schema } from "filterql"
 import type { SetOptional } from "type-fest"
 
-import type { ExtraDataProperties } from "~/cli/shared.ts"
 import { baseFlags, baseParameters, baseSchema } from "~/cli/shared.ts"
 import type { Flags, FlagsToType, SchemaToType, ToMediaData } from "~/cli/types.ts"
 
@@ -47,4 +46,4 @@ export const sonarrSchema = {
 export type SonarrSchema = typeof sonarrSchema
 type SonarrSchemaOptional = SetOptional<SonarrSchema, "season" | "episode">
 type SonarrSchemaToType = SchemaToType<SonarrSchemaOptional>
-export type SonarrMediaData = ToMediaData<SonarrSchemaToType & ExtraDataProperties>
+export type SonarrMediaData = ToMediaData<SonarrSchemaToType>

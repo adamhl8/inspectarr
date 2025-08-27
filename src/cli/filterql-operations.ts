@@ -1,7 +1,5 @@
 import type { OperationMap } from "filterql"
 
-import type { ExtraDataProperties } from "~/cli/shared.ts"
-import { extraDataPropertiesKeys } from "~/cli/shared.ts"
 import type { AllMediaDataKeys } from "~/cli/types.ts"
 import { omit } from "~/utils.ts"
 
@@ -33,11 +31,7 @@ export const customOperations: OperationMap = {
     return sortedData
   },
   EXCLUDE: (data, args, { resolveField }) => {
-    const fields = args
-      .map((field) => resolveField(field))
-      .filter((field) => field !== undefined)
-      // it doesn't make sense to be able to exclude extra data properties since they're not displayed anyway
-      .filter((field) => !extraDataPropertiesKeys.includes(field as keyof ExtraDataProperties))
+    const fields = args.map((field) => resolveField(field)).filter((field) => field !== undefined)
 
     const dataAfterExcludes = data.map((obj) => omit(obj, fields))
     return dataAfterExcludes as typeof data

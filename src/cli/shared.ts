@@ -52,6 +52,29 @@ export const baseFlags = {
 
 export const baseParameters = ["[query]"] as const satisfies CliParameters
 
+/**
+ * These are extra fields we want to attach to the data, but don't want to be displayed in the markdown output at all
+ */
+const hiddenFields = {
+  rawResolution: { type: "number" },
+  rawSize: { type: "number" },
+} as const satisfies Schema
+export const hiddenFieldKeys = Object.keys(hiddenFields) as (keyof typeof hiddenFields)[]
+
+/**
+ * These are fields that are merged into another field in the markdown output.
+ *
+ * We do this to reduce the width of the table. For example, rather than having a column for 'year', we make the year part of the title.
+ *
+ * - year -> title [year]
+ * - audioChannels -> audioCodec [audioChannels]
+ */
+const mergedFields = {
+  year: { type: "number", alias: "y" },
+  audioChannels: { type: "number", alias: "ach" },
+} as const satisfies Schema
+export const mergedFieldKeys = Object.keys(mergedFields) as (keyof typeof mergedFields)[]
+
 export const baseSchema = {
   title: { type: "string", alias: "t" },
   monitored: { type: "boolean", alias: "m" },
@@ -61,14 +84,6 @@ export const baseSchema = {
   audioCodec: { type: "string", alias: "ac" },
   resolution: { type: "string", alias: "rs" },
   size: { type: "string", alias: "sz" },
+  ...mergedFields,
+  ...hiddenFields,
 } as const satisfies Schema
-
-/**
- * These are extra properties we want to attach to the data, but don't want to be displayed/queryable.
- */
-const extraDataProperties = {
-  rawResolution: 0,
-  rawSize: 0,
-} as const
-export type ExtraDataProperties = typeof extraDataProperties
-export const extraDataPropertiesKeys = Object.keys(extraDataProperties) as (keyof ExtraDataProperties)[]

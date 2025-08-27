@@ -4,7 +4,9 @@ import type { TablemarkOptions } from "tablemark"
 import { tablemark } from "tablemark"
 
 import type { OutputFlags } from "~/cli/shared.ts"
+import { hiddenFieldKeys, mergedFieldKeys } from "~/cli/shared.ts"
 import type { JsonifiableMediaData } from "~/cli/types.ts"
+import { formatQualifiedValue, omit } from "~/utils.ts"
 
 const pipeRegex = /\|/g
 
@@ -38,7 +40,19 @@ export class Logger {
     if (this.#options.shortHeaders)
       tablemarkOptions.toHeaderTitle = ({ key, title }) => this.#schema[key]?.alias ?? title.toLowerCase()
 
-    return tablemark(data, tablemarkOptions)
+    const markdownData = data.map((dataObject) => {
+      const newDataObject = { ...dataObject }
+
+      for (const key of mergedFieldKeys) {
+        if (key === "year") newDataObject.title = formatQualifiedValue(newDataObject.title, newDataObject.year)
+        else if (key === "audioChannels")
+          newDataObject.audioCodec = formatQualifiedValue(newDataObject.audioCodec, newDataObject.audioChannels)
+      }
+
+      return omit(newDataObject, [...hiddenFieldKeys, ...mergedFieldKeys])
+    })
+
+    return tablemark(markdownData, tablemarkOptions)
   }
 
   private toJson(data: JsonifiableMediaData): string {

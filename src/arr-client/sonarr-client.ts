@@ -2,9 +2,9 @@ import type { Result } from "ts-explicit-errors"
 import { err, isErr } from "ts-explicit-errors"
 
 import { ArrClient } from "~/arr-client/arr-client.ts"
-import { formatQualifiedValue, formatSize, getRawResolution } from "~/arr-client/utils.ts"
 import type { SonarrMediaData, SonarrOptions } from "~/cli/sonarr.ts"
 import type { paths } from "~/generated/sonarr-schema.js"
+import { formatSize, getRawResolution } from "~/utils.ts"
 
 type SonarrAllMedia = paths["/api/v3/series"]["get"]["responses"]["200"]["content"]["application/json"]
 type SonarrSeries = SonarrAllMedia[number]
@@ -36,17 +36,16 @@ type SeriesBySeason = { series: SonarrSeries; seasons: SeasonsArray }
 
 // The following helper functions help us extract specific information from a series/season/episode.
 
-const seriesTitle = (series: SonarrSeries) => formatQualifiedValue(series.title, series.year)
+const seriesTitle = (series: SonarrSeries) => series.title
+const seriesYear = (series: SonarrSeries) => series.year
 const seasonIdentifier = (seasonNumber: number) => seasonNumber.toString().padStart(2, "0")
 const episodeIdentifier = (episode?: SeriesEpisode) => episode?.episodeNumber?.toString().padStart(2, "0")
 const seriesType = (series: SonarrSeries) => series.seriesType
 const episodeReleaseGroup = (episode?: SeriesEpisode) => episode?.episodeFile?.releaseGroup
 const episodeSource = (episode?: SeriesEpisode) => episode?.episodeFile?.quality?.quality?.source
 const episodeVideoCodec = (episode?: SeriesEpisode) => episode?.episodeFile?.mediaInfo?.videoCodec
-const episodeAudioCodec = (episode?: SeriesEpisode) => {
-  const mediaInfo = episode?.episodeFile?.mediaInfo
-  return formatQualifiedValue(mediaInfo?.audioCodec, mediaInfo?.audioChannels)
-}
+const episodeAudioCodec = (episode?: SeriesEpisode) => episode?.episodeFile?.mediaInfo?.audioCodec
+const episodeAudioChannels = (episode?: SeriesEpisode) => episode?.episodeFile?.mediaInfo?.audioChannels
 const episodeResolution = (episode?: SeriesEpisode) => episode?.episodeFile?.mediaInfo?.resolution
 const episodeRawResolution = (episode?: SeriesEpisode) => getRawResolution(episode?.episodeFile?.mediaInfo?.resolution)
 const rawEpisodeSize = (episode?: SeriesEpisode) => episode?.episodeFile?.size
@@ -77,7 +76,7 @@ export class SonarrClient extends ArrClient {
   readonly #options: SonarrOptions
 
   public constructor(baseUrl: string, apiKey: string, options: SonarrOptions) {
-    super(baseUrl, apiKey)
+    super("Sonarr", baseUrl, apiKey)
     this.#options = options
   }
 
@@ -155,6 +154,7 @@ export class SonarrClient extends ArrClient {
             if (!episode) continue
             data.push({
               title: seriesTitle(series),
+              year: seriesYear(series),
               season: seasonIdentifier(seasonNumber),
               episode: episodeIdentifier(episode),
               type: seriesType(series),
@@ -163,6 +163,7 @@ export class SonarrClient extends ArrClient {
               source: episodeSource(episode),
               videoCodec: episodeVideoCodec(episode),
               audioCodec: episodeAudioCodec(episode),
+              audioChannels: episodeAudioChannels(episode),
               resolution: episodeResolution(episode),
               rawResolution: episodeRawResolution(episode),
               size: episodeSize(episode),
@@ -177,6 +178,7 @@ export class SonarrClient extends ArrClient {
           if (!season) continue
           data.push({
             title: seriesTitle(series),
+            year: seriesYear(series),
             season: seasonIdentifier(seasonNumber),
             type: seriesType(series),
             monitored: series.seasons?.find((seasonElement) => seasonElement.seasonNumber === seasonNumber)?.monitored,
@@ -184,6 +186,7 @@ export class SonarrClient extends ArrClient {
             source: gatherEpisodeData([season], episodeSource),
             videoCodec: gatherEpisodeData([season], episodeVideoCodec),
             audioCodec: gatherEpisodeData([season], episodeAudioCodec),
+            audioChannels: gatherEpisodeData([season], episodeAudioChannels),
             resolution: gatherEpisodeData([season], episodeResolution),
             rawResolution: gatherEpisodeData([season], episodeRawResolution),
             size: getTotalSize([season]),
@@ -196,12 +199,14 @@ export class SonarrClient extends ArrClient {
         if (seasons.flat().length === 0) continue
         data.push({
           title: seriesTitle(series),
+          year: seriesYear(series),
           type: seriesType(series),
           monitored: series.monitored,
           releaseGroup: gatherEpisodeData(seasons, episodeReleaseGroup),
           source: gatherEpisodeData(seasons, episodeSource),
           videoCodec: gatherEpisodeData(seasons, episodeVideoCodec),
           audioCodec: gatherEpisodeData(seasons, episodeAudioCodec),
+          audioChannels: gatherEpisodeData(seasons, episodeAudioChannels),
           resolution: gatherEpisodeData(seasons, episodeResolution),
           rawResolution: gatherEpisodeData(seasons, episodeRawResolution),
           size: getTotalSize(seasons),

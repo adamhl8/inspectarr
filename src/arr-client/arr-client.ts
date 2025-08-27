@@ -1,15 +1,17 @@
 import ky from "ky"
 import type { Result } from "ts-explicit-errors"
 import { attempt, err, isErr } from "ts-explicit-errors"
-import type { Entries, JsonPrimitive } from "type-fest"
+import type { Entries } from "type-fest"
 
-import type { JsonifiableMediaData, JsonifiableMediaDataObject, MediaData } from "~/cli/types.ts"
+import type { JsonifiableMediaData, MediaData } from "~/cli/types.ts"
 
 export abstract class ArrClient {
+  public name: string
   readonly #baseUrl: string
   readonly #apiKey: string
 
-  public constructor(baseUrl: string, apiKey: string) {
+  public constructor(name: string, baseUrl: string, apiKey: string) {
+    this.name = name
     this.#baseUrl = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl
     this.#apiKey = apiKey
   }
@@ -40,24 +42,20 @@ export abstract class ArrClient {
 
     const unique = (arr: unknown[] | undefined) => [...new Set(arr)].join(",").trim()
 
-    const normalizedMediaData: JsonifiableMediaData = []
-
-    for (const entry of mediaData) {
-      const mediaDataObject: JsonifiableMediaDataObject = {}
-      for (const [key, value] of Object.entries(entry) as Entries<typeof entry>) {
-        let normalizedValue: JsonPrimitive
-
+    const normalizedMediaData: JsonifiableMediaData = mediaData.map((dataObject) => {
+      const dataObjectEntries = Object.entries(dataObject) as Entries<typeof dataObject>
+      const normalizedDataObjectEntries = dataObjectEntries.map(([key, value]) => {
         if (Array.isArray(value)) {
           const uniqueString = unique(value)
-          normalizedValue = uniqueString || null // empty arrays should be null
-        } else if (typeof value === "string") normalizedValue = value.trim()
-        else if (value === undefined) normalizedValue = null
-        else normalizedValue = value
+          return [key, uniqueString || null] // empty arrays should be null
+        }
+        if (typeof value === "string") return [key, value.trim()]
+        if (value === undefined) return [key, null]
+        return [key, value]
+      })
 
-        mediaDataObject[key] = normalizedValue
-      }
-      normalizedMediaData.push(mediaDataObject)
-    }
+      return Object.fromEntries(normalizedDataObjectEntries)
+    })
 
     return normalizedMediaData
   }

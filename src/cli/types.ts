@@ -104,6 +104,8 @@ export type SchemaToType<T extends Schema> = {
     : unknown
 }
 
+type KeysOf<T> = T extends T ? keyof T : never
+
 type MediaDataValue = JsonPrimitive | undefined
 type MediaDataValueOrArray = MediaDataValue | MediaDataValue[]
 
@@ -120,11 +122,11 @@ export type ToMediaData<T> = {
 
 export type MediaData = SimplifyDeep<RadarrMediaData | SonarrMediaData>
 
-export type AllMediaDataKeys = keyof (RadarrMediaData & SonarrMediaData)[number]
-export type JsonifiableMediaDataObject = Partial<Record<AllMediaDataKeys, JsonPrimitive>>
+export type AllMediaDataKeys = KeysOf<MediaData[number]>
+
 /**
  * This type represents the jsonifiable data array we build in the `normalizeMediaData` function.
  *
  * This is what we filter against and thus what is used for the output.
  */
-export type JsonifiableMediaData = SimplifyDeep<JsonifiableMediaDataObject[]>
+export type JsonifiableMediaData = SimplifyDeep<Record<AllMediaDataKeys, JsonPrimitive>[]>

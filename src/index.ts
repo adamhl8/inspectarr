@@ -3,8 +3,15 @@ import type { Result } from "ts-explicit-errors"
 import { attempt, err, isErr } from "ts-explicit-errors"
 
 import { getServiceInfo } from "~/cli/cli.ts"
-import { extraDataPropertiesKeys } from "~/cli/shared.ts"
-import { omit } from "~/utils.ts"
+import type { JsonifiableMediaData } from "~/cli/types.ts"
+import { formatSize } from "~/utils.ts"
+
+function getStats(mediaData: JsonifiableMediaData) {
+  const totalMedia = mediaData.length
+  const totalSize = mediaData.reduce((acc, media) => acc + ((media.rawSize as number) ?? 0), 0)
+
+  return `${totalMedia} media entries with a size of ${formatSize(totalSize)}`
+}
 
 async function inspectarr(): Promise<Result> {
   const { client, filterql, query, logger } = getServiceInfo()
@@ -13,20 +20,19 @@ async function inspectarr(): Promise<Result> {
   const mediaData = await client.getNormalizedMediaData()
   if (isErr(mediaData)) return mediaData
 
-  logger.info(`Total # of media entries: ${mediaData.length}`)
-
   const filteredMedia = attempt(() => filterql.filter(mediaData, query))
   if (isErr(filteredMedia)) return err(`failed to filter media with query '${query}'`, filteredMedia)
 
-  if (query && !process.env["IS_VHS_DEMO"])
-    logger.info(`Showing ${filteredMedia.length} media entries from query: '${query}'`)
+  if (!process.env["IS_VHS_DEMO"]) {
+    logger.info(`${client.name} has: ${getStats(mediaData)}`)
+    // only display query stats if they're actually different
+    if (mediaData.length !== filteredMedia.length) logger.info(`The query matched: ${getStats(filteredMedia)}`)
+  }
 
   if (filteredMedia.length === 0) return
 
-  const mediaDataToPrint = filteredMedia.map((dataObj) => omit(dataObj, extraDataPropertiesKeys))
-
   logger.info("")
-  logger.printMediaData(mediaDataToPrint)
+  logger.printMediaData(filteredMedia)
 }
 
 async function main(): Promise<number> {

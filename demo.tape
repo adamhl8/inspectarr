@@ -4,7 +4,7 @@ Set Theme "Catppuccin Macchiato"
 Set WindowBar Colorful
 Set FontFamily "JetBrainsMono Nerd Font"
 Set Width 1250
-Set Height 425
+Set Height 400
 Set Padding 25
 
 Set Shell bash

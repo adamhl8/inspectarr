@@ -91,13 +91,16 @@ Inspectarr uses [FilterQL](https://github.com/adamhl8/filterql) to filter/transf
 inspectarr radarr 'source == bluray && resolution ^= 1920'
 
 # display media from specific release groups
-inspectarr sonarr 'releaseGroup == AMZN || releaseGroup == NF'
+inspectarr sonarr 'releaseGroup == NTb || releaseGroup == FLUX'
 
 # display media where the title contains 'star wars' (case-insensitive)
 inspectarr sonarr 'title i*= "star wars"'
 
+# display media where the title does *not* contain 'star wars'
+inspectarr sonarr '!title i*= "star wars"'
+
 # display media released after 1990, then sort by title
-inspectarr radarr 'title *= "(1990)" | SORT title'
+inspectarr radarr 'year > 1990 | SORT title'
 
 # display media where monitored is true and where the video codec is x265 (contains '265')
 inspectarr radarr 'monitored && videoCodec *= 265'
@@ -108,11 +111,13 @@ inspectarr radarr 'monitored && videoCodec *= 265'
 **General fields:**
 
 - `title` (alias: `t`) - Media title
+- `year` (alias: `y`) - Release year
 - `monitored` (alias: `m`) - Whether the media is monitored
 - `releaseGroup` (alias: `rg`) - Release group name
 - `source` (alias: `src`) - Media source (bluray, webdl, etc.)
 - `videoCodec` (alias: `vc`) - Video codec (x264, x265, etc.)
-- `audioCodec` (alias: `ac`) - Audio codec with audio channel info
+- `audioCodec` (alias: `ac`) - Audio codec (AAC, EAC3, etc.)
+- `audioChannels` (alias: `ach`) - Audio channels (2, 5.1, etc.)
 - `resolution` (alias: `rs`) - Video resolution
 - `size` (alias: `sz`) - File size
 
