@@ -22,7 +22,12 @@ interface CommandInfo {
 }
 
 export function getServiceInfo(): CommandInfo {
-  const args = cli({ commands: [radarrCommand, sonarrCommand], name: "Inspectarr", version: packageJson.version })
+  const args = cli({
+    commands: [radarrCommand, sonarrCommand],
+    name: "Inspectarr",
+    version: packageJson.version,
+    help: { description: packageJson.description },
+  })
   function showHelpAndExit(message: string): never {
     console.error(message)
     args.showHelp()
