@@ -20,19 +20,29 @@ async function inspectarr(): Promise<Result> {
   const mediaData = await client.getNormalizedMediaData()
   if (isErr(mediaData)) return mediaData
 
-  const filteredMedia = attempt(() => filterql.query(mediaData, query))
+  const ast = attempt(() => filterql.parse(query))
+  if (isErr(ast)) return err(`failed to parse query '${query}'`, ast)
+
+  const filteredMedia = attempt(() => filterql.applyFilter(mediaData, ast.filter))
   if (isErr(filteredMedia)) return err(`failed to filter media with query '${query}'`, filteredMedia)
+
+  // don't apply EXCLUDE operation if output is JSON
+  const operations =
+    logger.options.output === "json" ? ast.operations.filter(({ name }) => name !== "EXCLUDE") : ast.operations
+
+  const transformedMedia = attempt(() => filterql.applyOperations(filteredMedia, operations))
+  if (isErr(transformedMedia)) return err(`failed to apply operations to media with query '${query}'`, transformedMedia)
 
   if (!process.env["IS_VHS_DEMO"]) {
     logger.info(`${client.name} has: ${getStats(mediaData)}`)
     // only display query stats if they're actually different
-    if (mediaData.length !== filteredMedia.length) logger.info(`The query matched: ${getStats(filteredMedia)}`)
+    if (mediaData.length !== transformedMedia.length) logger.info(`The query matched: ${getStats(transformedMedia)}`)
   }
 
-  if (filteredMedia.length === 0) return
+  if (transformedMedia.length === 0) return
 
   logger.info("")
-  logger.printMediaData(filteredMedia)
+  logger.printMediaData(transformedMedia)
 }
 
 async function main(): Promise<number> {

@@ -42,6 +42,11 @@ const outputFlags = {
     description: "Use the field aliases as the markdown table headers (can help reduce the width of the table)",
     default: false,
   },
+  all: {
+    type: Boolean,
+    description: "Show fields that are hidden by default in the markdown table",
+    default: false,
+  },
 } as const satisfies Flags
 export type OutputFlags = FlagsToType<typeof outputFlags>
 
@@ -56,6 +61,7 @@ export const baseParameters = ["[query]"] as const satisfies CliParameters
  * These are extra fields we want to attach to the data, but don't want to be displayed in the markdown output at all
  */
 const hiddenFields = {
+  qualityProfile: { type: "string", alias: "qp" },
   rawResolution: { type: "number" },
   rawSize: { type: "number" },
 } as const satisfies Schema

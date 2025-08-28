@@ -5,26 +5,26 @@ import { tablemark } from "tablemark"
 
 import type { OutputFlags } from "~/cli/shared.ts"
 import { hiddenFieldKeys, mergedFieldKeys } from "~/cli/shared.ts"
-import type { JsonifiableMediaData } from "~/cli/types.ts"
+import type { AllMediaDataKeys, JsonifiableMediaData } from "~/cli/types.ts"
 import { formatQualifiedValue, omit } from "~/utils.ts"
 
 const pipeRegex = /\|/g
 
 export class Logger {
-  readonly #options: OutputFlags
+  public readonly options: OutputFlags
   readonly #schema: Schema
 
   public constructor(options: OutputFlags, schema: Schema) {
-    this.#options = options
+    this.options = options
     this.#schema = schema
   }
 
   public info(message: string): void {
-    if (!this.#options.quiet) console.info(message)
+    if (!this.options.quiet) console.info(message)
   }
 
   public printMediaData(data: JsonifiableMediaData) {
-    const output = this.#options.output === "md" ? this.toMarkdown(data) : this.toJson(data)
+    const output = this.options.output === "md" ? this.toMarkdown(data) : this.toJson(data)
     process.stdout.write(output)
   }
 
@@ -37,7 +37,7 @@ export class Logger {
         return value.toString().replaceAll(pipeRegex, "\\|") // need to escape any pipe characters
       },
     }
-    if (this.#options.shortHeaders)
+    if (this.options.shortHeaders)
       tablemarkOptions.toHeaderTitle = ({ key, title }) => this.#schema[key]?.alias ?? title.toLowerCase()
 
     const markdownData = data.map((dataObject) => {
@@ -49,7 +49,10 @@ export class Logger {
           newDataObject.audioCodec = formatQualifiedValue(newDataObject.audioCodec, newDataObject.audioChannels)
       }
 
-      return omit(newDataObject, [...hiddenFieldKeys, ...mergedFieldKeys])
+      const fieldsToOmit: AllMediaDataKeys[] = [...mergedFieldKeys]
+      if (!this.options.all) fieldsToOmit.push(...hiddenFieldKeys)
+
+      return omit(newDataObject, fieldsToOmit)
     })
 
     return tablemark(markdownData, tablemarkOptions)

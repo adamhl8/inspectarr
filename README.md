@@ -24,7 +24,7 @@ A CLI tool for querying and inspecting the media in your Radarr and Sonarr insta
 
 <!-- tocstop -->
 
-If you're looking for a tool to manage/change your \*arrs, check out [managarr](https://github.com/Dark-Alex-17/managarr).
+If you're looking for a more general tool to manage/change your \*arrs, check out [managarr](https://github.com/Dark-Alex-17/managarr).
 
 ## Installation
 
@@ -127,6 +127,21 @@ inspectarr radarr 'monitored && videoCodec *= 265'
 - `season` (alias: `s`) - Season number
 - `episode` (alias: `e`) - Episode number
 
+#### Hidden Fields
+
+Some fields are hidden by default to prevent the markdown output from being too wide. Note: The JSON output will always include all fields.
+
+To display hidden fields, use the `--all` flag.
+
+- `qualityProfile` (alias: `qp`) - Quality profile name
+- `rawResolution` - Total pixel count
+- `rawSize` - File size in bytes
+
+> [!TIP]
+> If the markdown output is too wide, use the `EXCLUDE` operation to exclude specific fields/columns.
+>
+> For example: `inspectarr sonarr --all '* | EXCLUDE rawResolution rawSize'`
+
 #### Operations
 
 In addition to the [built-in FilterQL operations](https://github.com/adamhl8/filterql#operations), the following operations are available:
@@ -148,10 +163,11 @@ inspectarr radarr 'source == bluray | EXCLUDE resolution size'
 - `--output <md|json>`: The type of output to generate ("json" implies --quiet) (default: "md")
 - `--quiet`: Suppress all output except the markdown/JSON
 - `--short-headers`: Use the field aliases as the markdown table headers (can help reduce the width of the table)
+- `--all`: Show fields that are hidden by default in the markdown table
 
 **Sonarr-specific flags:**
 
 By default, media from Sonarr is displayed by series.
 
-- `--by-season`: Display media by individual season
 - `--by-episode`: Display media by individual episode
+- `--by-season`: Display media by individual season

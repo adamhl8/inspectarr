@@ -7,6 +7,7 @@ import type { paths } from "~/generated/radarr-schema.ts"
 import { formatSize, getRawResolution } from "~/utils.ts"
 
 type RadarrAllMedia = paths["/api/v3/movie"]["get"]["responses"]["200"]["content"]["application/json"][number]
+type RadarrQualityProfiles = paths["/api/v3/qualityprofile"]["get"]["responses"]["200"]["content"]["application/json"]
 
 export class RadarrClient extends ArrClient {
   public constructor(baseUrl: string, apiKey: string) {
@@ -17,9 +18,16 @@ export class RadarrClient extends ArrClient {
     return this.makeRequest<RadarrAllMedia[]>("movie")
   }
 
+  public getAllQualityProfiles(): Promise<Result<RadarrQualityProfiles>> {
+    return this.makeRequest<RadarrQualityProfiles>("qualityprofile")
+  }
+
   public async getMediaData() {
     const allMedia = await this.getAllMedia()
     if (isErr(allMedia)) return err("failed to get radarr media", allMedia)
+
+    const qualityProfiles = await this.getAllQualityProfiles()
+    if (isErr(qualityProfiles)) return err("failed to get radarr quality profiles", qualityProfiles)
 
     const data: RadarrMediaData = []
     for (const movie of allMedia) {
@@ -34,6 +42,7 @@ export class RadarrClient extends ArrClient {
         monitored: movie.monitored,
         releaseGroup: movieFile?.releaseGroup,
         source: movieFile?.quality?.quality?.source,
+        qualityProfile: qualityProfiles.find((profile) => profile.id === movie.qualityProfileId)?.name,
         videoCodec: mediaDetails?.videoCodec,
         audioCodec: mediaDetails?.audioCodec,
         audioChannels: mediaDetails?.audioChannels,

@@ -6,15 +6,15 @@ import { baseFlags, baseParameters, baseSchema } from "~/cli/shared.ts"
 import type { Flags, FlagsToType, SchemaToType, ToMediaData } from "~/cli/types.ts"
 
 const sonarrOptionFlags = {
-  bySeason: {
-    type: Boolean,
-    default: false,
-    description: "Display media by individual season",
-  },
   byEpisode: {
     type: Boolean,
     default: false,
     description: "Display media by individual episode",
+  },
+  bySeason: {
+    type: Boolean,
+    default: false,
+    description: "Display media by individual season",
   },
 } as const satisfies Flags
 export type SonarrOptions = FlagsToType<typeof sonarrOptionFlags>

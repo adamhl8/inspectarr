@@ -8,6 +8,7 @@ import { formatSize, getRawResolution } from "~/utils.ts"
 
 type SonarrAllMedia = paths["/api/v3/series"]["get"]["responses"]["200"]["content"]["application/json"]
 type SonarrSeries = SonarrAllMedia[number]
+type SonarrQualityProfiles = paths["/api/v3/qualityprofile"]["get"]["responses"]["200"]["content"]["application/json"]
 
 type SeriesEpisodes = paths["/api/v3/episode"]["get"]["responses"]["200"]["content"]["application/json"]
 type SeriesEpisode = SeriesEpisodes[number] | undefined
@@ -38,6 +39,8 @@ type SeriesBySeason = { series: SonarrSeries; seasons: SeasonsArray }
 
 const seriesTitle = (series: SonarrSeries) => series.title
 const seriesYear = (series: SonarrSeries) => series.year
+const seriesQualityProfile = (series: SonarrSeries, qualityProfiles: SonarrQualityProfiles) =>
+  qualityProfiles.find((profile) => profile.id === series.qualityProfileId)?.name
 const seasonIdentifier = (seasonNumber: number) => seasonNumber.toString().padStart(2, "0")
 const episodeIdentifier = (episode?: SeriesEpisode) => episode?.episodeNumber?.toString().padStart(2, "0")
 const seriesType = (series: SonarrSeries) => series.seriesType
@@ -82,6 +85,10 @@ export class SonarrClient extends ArrClient {
 
   public async getAllMedia(): Promise<Result<SonarrAllMedia>> {
     return await this.makeRequest<SonarrAllMedia>("series")
+  }
+
+  public getAllQualityProfiles(): Promise<Result<SonarrQualityProfiles>> {
+    return this.makeRequest<SonarrQualityProfiles>("qualityprofile")
   }
 
   private async getAllEpisodesForSeries(series: SonarrSeries): Promise<Result<SeriesEpisodes>> {
@@ -144,6 +151,9 @@ export class SonarrClient extends ArrClient {
     const allSeriesBySeason = await this.getAllSeriesBySeason()
     if (isErr(allSeriesBySeason)) return allSeriesBySeason
 
+    const qualityProfiles = await this.getAllQualityProfiles()
+    if (isErr(qualityProfiles)) return err("failed to get sonarr quality profiles", qualityProfiles)
+
     const data: SonarrMediaData = []
 
     if (this.#options.byEpisode) {
@@ -159,6 +169,7 @@ export class SonarrClient extends ArrClient {
               episode: episodeIdentifier(episode),
               type: seriesType(series),
               monitored: episode?.monitored,
+              qualityProfile: seriesQualityProfile(series, qualityProfiles),
               releaseGroup: episodeReleaseGroup(episode),
               source: episodeSource(episode),
               videoCodec: episodeVideoCodec(episode),
@@ -182,6 +193,7 @@ export class SonarrClient extends ArrClient {
             season: seasonIdentifier(seasonNumber),
             type: seriesType(series),
             monitored: series.seasons?.find((seasonElement) => seasonElement.seasonNumber === seasonNumber)?.monitored,
+            qualityProfile: seriesQualityProfile(series, qualityProfiles),
             releaseGroup: gatherEpisodeData([season], episodeReleaseGroup),
             source: gatherEpisodeData([season], episodeSource),
             videoCodec: gatherEpisodeData([season], episodeVideoCodec),
@@ -202,6 +214,7 @@ export class SonarrClient extends ArrClient {
           year: seriesYear(series),
           type: seriesType(series),
           monitored: series.monitored,
+          qualityProfile: seriesQualityProfile(series, qualityProfiles),
           releaseGroup: gatherEpisodeData(seasons, episodeReleaseGroup),
           source: gatherEpisodeData(seasons, episodeSource),
           videoCodec: gatherEpisodeData(seasons, episodeVideoCodec),

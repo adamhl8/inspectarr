@@ -63,10 +63,10 @@ export function getServiceInfo(): CommandInfo {
   const filterql = new FilterQL({ schema, customOperations })
   const query = Object.hasOwn(args._, "query") ? (args._.query ?? "") : ""
 
-  let { output, quiet, shortHeaders } = args.flags
+  let { output, quiet, shortHeaders, all } = args.flags
   const outputResult = handleFlagResult(output, showHelpAndExit)
   if (outputResult === "json") quiet = true
-  const logger = new Logger({ output: outputResult, quiet, shortHeaders }, schema)
+  const logger = new Logger({ output: outputResult, quiet, shortHeaders, all }, schema)
 
   return {
     client,
