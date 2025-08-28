@@ -20,7 +20,7 @@ async function inspectarr(): Promise<Result> {
   const mediaData = await client.getNormalizedMediaData()
   if (isErr(mediaData)) return mediaData
 
-  const filteredMedia = attempt(() => filterql.filter(mediaData, query))
+  const filteredMedia = attempt(() => filterql.query(mediaData, query))
   if (isErr(filteredMedia)) return err(`failed to filter media with query '${query}'`, filteredMedia)
 
   if (!process.env["IS_VHS_DEMO"]) {
