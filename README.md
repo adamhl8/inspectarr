@@ -20,7 +20,7 @@ A CLI tool for querying and inspecting the media in your Radarr and Sonarr insta
   - [Setup](#setup)
   - [Basic Usage](#basic-usage)
   - [Queries](#queries)
-  - [Inspectarr Flags](#inspectarr-flags)
+  - [Inspectarr Options](#inspectarr-options)
 
 <!-- tocstop -->
 
@@ -58,13 +58,13 @@ Inspectarr requires your Radarr/Sonarr URL and API key to connect to your instan
 
 - Environment variables: `RADARR_URL`, `RADARR_API_KEY`, `SONARR_URL`, `SONARR_API_KEY`
 - Or directly when running Inspectarr:
-  - e.g. `inspectarr radarr --url "your-radarr-url" --api-key 'your-api-key'`
+  - e.g. `inspectarr radarr --url 'your-radarr-url' --api-key 'your-api-key'`
 
 ### Basic Usage
 
-Using Inspectarr generally looks like this: `inspectarr <radarr|sonarr> [flags]... [query]`
+`inspectarr <radarr|sonarr> [options]... [query]`
 
-- Use `--help` to see all of the available flags on a subcommand: `inspectarr sonarr --help`
+- Use `inspectarr help <command>` to see more detailed usage information: `inspectarr help sonarr`
 
 Running Inspectarr without a query will display _all_ of your downloaded media:
 
@@ -108,6 +108,18 @@ inspectarr radarr 'monitored && videoCodec *= 265'
 
 #### Fields
 
+> [!TIP]
+> Some fields are hidden by default to prevent the markdown table from being too wide.
+>
+> - To display hidden fields, use the `--all` option.
+>
+> You don't have to display hidden fields to use them in queries.
+
+> [!TIP]
+> If the markdown table is too wide, use the `EXCLUDE` operation to exclude specific fields/columns.
+>
+> For example: `inspectarr sonarr --all '* | EXCLUDE audioLanguage subtitleLanguage'`
+
 **General fields:**
 
 - `title` (alias: `t`) - Media title
@@ -115,9 +127,12 @@ inspectarr radarr 'monitored && videoCodec *= 265'
 - `monitored` (alias: `m`) - Whether the media is monitored
 - `releaseGroup` (alias: `rg`) - Release group name
 - `source` (alias: `src`) - Media source (bluray, webdl, etc.)
+- `qualityProfile` (alias: `qp`) - Quality profile name
 - `videoCodec` (alias: `vc`) - Video codec (x264, x265, etc.)
 - `audioCodec` (alias: `ac`) - Audio codec (AAC, EAC3, etc.)
 - `audioChannels` (alias: `ach`) - Audio channels (2, 5.1, etc.)
+- `audioLanguage` (alias: `al`) - List of audio languages (eng, jpn, etc.)
+- `subtitleLanguage` (alias: `sl`) - List of subtitle languages (eng, spa, etc.)
 - `resolution` (alias: `rs`) - Video resolution
 - `size` (alias: `sz`) - File size
 
@@ -127,20 +142,14 @@ inspectarr radarr 'monitored && videoCodec *= 265'
 - `season` (alias: `s`) - Season number
 - `episode` (alias: `e`) - Episode number
 
-#### Hidden Fields
+#### Internal Fields
 
-Some fields are hidden by default to prevent the markdown output from being too wide. Note: The JSON output will always include all fields.
+These fields are used internally and are never displayed in the markdown table.
 
-To display hidden fields, use the `--all` flag.
+- Note: The JSON output will always include all fields.
 
-- `qualityProfile` (alias: `qp`) - Quality profile name
 - `rawResolution` - Total pixel count
 - `rawSize` - File size in bytes
-
-> [!TIP]
-> If the markdown output is too wide, use the `EXCLUDE` operation to exclude specific fields/columns.
->
-> For example: `inspectarr sonarr --all '* | EXCLUDE rawResolution rawSize'`
 
 #### Operations
 
@@ -154,20 +163,23 @@ In addition to the [built-in FilterQL operations](https://github.com/adamhl8/fil
 inspectarr radarr 'source == bluray | EXCLUDE resolution size'
 ```
 
-### Inspectarr Flags
+### Inspectarr Options
 
-**General flags:**
+**Service options:**
 
-- `--url`: The URL of the instance (default: the "\<SERVICE\>\_URL" environment variable)
-- `--api-key`: The API key for the instance (default: the "\<SERVICE\>\_API_KEY" environment variable)
-- `--output <md|json>`: The type of output to generate ("json" implies --quiet) (default: "md")
+- `--url`: The URL of the instance (default: "\<SERVICE\>\_URL" environment variable)
+- `--api-key`: The API key for the instance (default: "\<SERVICE\>\_API_KEY" environment variable)
+
+**Output options:**
+
+- `--all`: Show fields that are hidden by default in the markdown table
+- `--output md|json`: The type of output to generate (`json` implies `--quiet`) (default: `md`)
 - `--quiet`: Suppress all output except the markdown/JSON
 - `--short-headers`: Use the field aliases as the markdown table headers (can help reduce the width of the table)
-- `--all`: Show fields that are hidden by default in the markdown table
 
-**Sonarr-specific flags:**
+**Sonarr-specific options:**
 
 By default, media from Sonarr is displayed by series.
 
-- `--by-episode`: Display media by individual episode
 - `--by-season`: Display media by individual season
+- `--by-episode`: Display media by individual episode

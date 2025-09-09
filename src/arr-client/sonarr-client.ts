@@ -49,6 +49,8 @@ const episodeSource = (episode?: SeriesEpisode) => episode?.episodeFile?.quality
 const episodeVideoCodec = (episode?: SeriesEpisode) => episode?.episodeFile?.mediaInfo?.videoCodec
 const episodeAudioCodec = (episode?: SeriesEpisode) => episode?.episodeFile?.mediaInfo?.audioCodec
 const episodeAudioChannels = (episode?: SeriesEpisode) => episode?.episodeFile?.mediaInfo?.audioChannels
+const episodeAudioLanguage = (episode?: SeriesEpisode) => episode?.episodeFile?.mediaInfo?.audioLanguages?.split("/")
+const episodeSubtitleLanguage = (episode?: SeriesEpisode) => episode?.episodeFile?.mediaInfo?.subtitles?.split("/")
 const episodeResolution = (episode?: SeriesEpisode) => episode?.episodeFile?.mediaInfo?.resolution
 const episodeRawResolution = (episode?: SeriesEpisode) => getRawResolution(episode?.episodeFile?.mediaInfo?.resolution)
 const rawEpisodeSize = (episode?: SeriesEpisode) => episode?.episodeFile?.size
@@ -73,7 +75,10 @@ const getTotalSize = (seasons: SeasonsArray, raw = false) => {
  * Returns a flat array of data returned by the episode function.
  */
 const gatherEpisodeData = <T>(seasons: SeasonsArray, episodeFn: (episode: SeriesEpisode) => T) =>
-  seasons.flatMap((season) => season?.map(episodeFn)).filter(Boolean)
+  seasons
+    .flatMap((season) => season?.map(episodeFn))
+    .filter(Boolean)
+    .flat() // need to call flat in addition to flatMap because the given episode function may return an array, and flatMap only flattens with depth 1
 
 export class SonarrClient extends ArrClient {
   readonly #options: SonarrOptions
@@ -175,6 +180,8 @@ export class SonarrClient extends ArrClient {
               videoCodec: episodeVideoCodec(episode),
               audioCodec: episodeAudioCodec(episode),
               audioChannels: episodeAudioChannels(episode),
+              audioLanguage: episodeAudioLanguage(episode),
+              subtitleLanguage: episodeSubtitleLanguage(episode),
               resolution: episodeResolution(episode),
               rawResolution: episodeRawResolution(episode),
               size: episodeSize(episode),
@@ -199,6 +206,8 @@ export class SonarrClient extends ArrClient {
             videoCodec: gatherEpisodeData([season], episodeVideoCodec),
             audioCodec: gatherEpisodeData([season], episodeAudioCodec),
             audioChannels: gatherEpisodeData([season], episodeAudioChannels),
+            audioLanguage: gatherEpisodeData([season], episodeAudioLanguage),
+            subtitleLanguage: gatherEpisodeData([season], episodeSubtitleLanguage),
             resolution: gatherEpisodeData([season], episodeResolution),
             rawResolution: gatherEpisodeData([season], episodeRawResolution),
             size: getTotalSize([season]),
@@ -220,6 +229,8 @@ export class SonarrClient extends ArrClient {
           videoCodec: gatherEpisodeData(seasons, episodeVideoCodec),
           audioCodec: gatherEpisodeData(seasons, episodeAudioCodec),
           audioChannels: gatherEpisodeData(seasons, episodeAudioChannels),
+          audioLanguage: gatherEpisodeData(seasons, episodeAudioLanguage),
+          subtitleLanguage: gatherEpisodeData(seasons, episodeSubtitleLanguage),
           resolution: gatherEpisodeData(seasons, episodeResolution),
           rawResolution: gatherEpisodeData(seasons, episodeRawResolution),
           size: getTotalSize(seasons),

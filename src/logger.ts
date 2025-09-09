@@ -3,18 +3,19 @@ import type { Schema } from "filterql"
 import type { TablemarkOptions } from "tablemark"
 import { tablemark } from "tablemark"
 
-import type { OutputFlags } from "~/cli/shared.ts"
-import { hiddenFieldKeys, mergedFieldKeys } from "~/cli/shared.ts"
+import { hiddenFieldKeys, internalFieldKeys, mergedFieldKeys } from "~/cli/base-fields.ts"
+import type { OutputOptions } from "~/cli/base-options.ts"
+import { sonarrHiddenFieldKeys } from "~/cli/sonarr.ts"
 import type { AllMediaDataKeys, JsonifiableMediaData } from "~/cli/types.ts"
 import { formatQualifiedValue, omit } from "~/utils.ts"
 
 const pipeRegex = /\|/g
 
 export class Logger {
-  public readonly options: OutputFlags
+  public readonly options: OutputOptions
   readonly #schema: Schema
 
-  public constructor(options: OutputFlags, schema: Schema) {
+  public constructor(options: OutputOptions, schema: Schema) {
     this.options = options
     this.#schema = schema
   }
@@ -31,6 +32,7 @@ export class Logger {
   private toMarkdown(data: JsonifiableMediaData): string {
     const tablemarkOptions: TablemarkOptions = {
       textHandlingStrategy: "advanced", // https://github.com/haltcase/tablemark/issues/24
+      maxWidth: 50,
       toCellText: ({ value }) => {
         // we want to show null/undefined as empty cells
         if (value === null || value === undefined) return ""
@@ -49,8 +51,8 @@ export class Logger {
           newDataObject.audioCodec = formatQualifiedValue(newDataObject.audioCodec, newDataObject.audioChannels)
       }
 
-      const fieldsToOmit: AllMediaDataKeys[] = [...mergedFieldKeys]
-      if (!this.options.all) fieldsToOmit.push(...hiddenFieldKeys)
+      const fieldsToOmit: AllMediaDataKeys[] = [...internalFieldKeys, ...mergedFieldKeys]
+      if (!this.options.all) fieldsToOmit.push(...hiddenFieldKeys, ...sonarrHiddenFieldKeys)
 
       return omit(newDataObject, fieldsToOmit)
     })

@@ -46,6 +46,8 @@ export class RadarrClient extends ArrClient {
         videoCodec: mediaDetails?.videoCodec,
         audioCodec: mediaDetails?.audioCodec,
         audioChannels: mediaDetails?.audioChannels,
+        audioLanguage: mediaDetails?.audioLanguages?.split("/"),
+        subtitleLanguage: mediaDetails?.subtitles?.split("/"),
         resolution: mediaDetails?.resolution,
         rawResolution: getRawResolution(mediaDetails?.resolution),
         size: formatSize(movieFile?.size),

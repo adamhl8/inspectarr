@@ -1,3 +1,4 @@
+import { uniq } from "es-toolkit"
 import ky from "ky"
 import type { Result } from "ts-explicit-errors"
 import { attempt, err, isErr } from "ts-explicit-errors"
@@ -40,13 +41,11 @@ export abstract class ArrClient {
     const mediaData = await this.getMediaData()
     if (isErr(mediaData)) return err("failed to get media data", mediaData)
 
-    const unique = (arr: unknown[] | undefined) => [...new Set(arr)].join(",").trim()
-
     const normalizedMediaData: JsonifiableMediaData = mediaData.map((dataObject) => {
       const dataObjectEntries = Object.entries(dataObject) as Entries<typeof dataObject>
       const normalizedDataObjectEntries = dataObjectEntries.map(([key, value]) => {
         if (Array.isArray(value)) {
-          const uniqueString = unique(value)
+          const uniqueString = uniq(value).join(",").trim()
           return [key, uniqueString || null] // empty arrays should be null
         }
         if (typeof value === "string") return [key, value.trim()]
