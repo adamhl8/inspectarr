@@ -144,9 +144,7 @@ inspectarr radarr 'monitored && videoCodec *= 265'
 
 #### Internal Fields
 
-These fields are used internally and are never displayed in the markdown table.
-
-- Note: The JSON output will always include all fields.
+These fields are used internally and are never displayed in the markdown table. The JSON output will always include all fields.
 
 - `rawResolution` - Total pixel count
 - `rawSize` - File size in bytes
