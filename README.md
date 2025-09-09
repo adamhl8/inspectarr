@@ -1,6 +1,4 @@
-<p align="center">
-<h1 align="center"><img style="color:#36BCF7; width:38px; height:38px;" src="https://raw.githubusercontent.com/adamhl8/inspectarr/refs/heads/main/assets/logo.svg"> Inspectarr</h1>
-</p>
+<h1 align="center"><img align="top" style="color:#36BCF7; width:38px; height:38px;" src="https://raw.githubusercontent.com/adamhl8/inspectarr/refs/heads/main/assets/logo.svg"> Inspectarr</h1>
 
 A CLI tool for querying and inspecting the media in your Radarr and Sonarr instances
 
