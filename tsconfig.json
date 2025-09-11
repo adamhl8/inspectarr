@@ -1,8 +1,6 @@
 {
   "extends": "@adamhl8/configs/tsconfig",
   "compilerOptions": {
-    "rewriteRelativeImportExtensions": false,
-    "noEmit": true,
     "paths": {
       "~/*": ["./src/*"],
       "package.json": ["./package.json"]

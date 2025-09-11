@@ -1,10 +1,8 @@
-import type { KnipConfig } from "knip"
+import { knipConfig } from "@adamhl8/configs"
 
-const config: KnipConfig = {
-  entry: ["src/index.ts", "package_templates/template-processor.ts"],
-  project: ["**"],
+const config = knipConfig({
+  entry: ["package_templates/template-processor.ts"],
   "github-actions": false,
-}
+} as const)
 
-// biome-ignore lint/style/noDefaultExport: needs to be default
 export default config

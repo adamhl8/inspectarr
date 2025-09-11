@@ -97,7 +97,7 @@ export class SonarrClient extends ArrClient {
   }
 
   private async getAllEpisodesForSeries(series: SonarrSeries): Promise<Result<SeriesEpisodes>> {
-    if (!series.id) return err(`series id is missing for series '${series.title}'`)
+    if (!series.id) return err(`series id is missing for series '${series.title}'`, undefined)
     const episodes = await this.makeRequest<SeriesEpisodes>(`episode?seriesId=${series.id}&includeEpisodeFile=true`)
     if (isErr(episodes)) return err(`failed to get episode data for series '${series.title}' (${series.id})`, episodes)
     return episodes
@@ -128,6 +128,7 @@ export class SonarrClient extends ArrClient {
         if (seasonNumber === undefined || episodeNumber === undefined)
           return err(
             `Unexpected invalid episode data for series '${series.title}': ${JSON.stringify(series, null, 2)} ${JSON.stringify(episode, null, 2)}`,
+            undefined,
           )
 
         seasons[seasonNumber] ??= []
