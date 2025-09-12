@@ -33,7 +33,10 @@ type SeasonArray = SeriesEpisode[] | undefined
  */
 type SeasonsArray = SeasonArray[]
 
-type SeriesBySeason = { series: SonarrSeries; seasons: SeasonsArray }
+interface SeriesBySeason {
+  series: SonarrSeries
+  seasons: SeasonsArray
+}
 
 // The following helper functions help us extract specific information from a series/season/episode.
 
@@ -109,7 +112,6 @@ export class SonarrClient extends ArrClient {
 
     const allSeriesBySeason: SeriesBySeason[] = []
 
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: ignore
     const processSeries = async (series: SonarrSeries) => {
       const episodes = await this.getAllEpisodesForSeries(series)
       if (isErr(episodes)) return episodes
@@ -152,7 +154,6 @@ export class SonarrClient extends ArrClient {
     return allSeriesBySeason
   }
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: it's more clear if we keep all of this in one function
   public async getMediaData() {
     const allSeriesBySeason = await this.getAllSeriesBySeason()
     if (isErr(allSeriesBySeason)) return allSeriesBySeason

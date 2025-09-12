@@ -19,21 +19,20 @@
   "license": "MIT",
   "keywords": ["servarr", "radarr", "sonarr", "arr", "inspect", "query", "filter", "data"],
   "scripts": {
-    "knip": "knip-bun",
-    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && tsc --noEmit && biome check --write && bun knip",
+    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && tsc --noEmit && biome check --write && bun knip-bun",
     "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true"
   },
   "dependencies": {
     "@optique/core": "0.5.0-dev.76",
     "@optique/run": "0.5.0-dev.76",
     "es-toolkit": "^1.39.10",
-    "filterql": "^3.0.1",
+    "filterql": "^3.0.2",
     "ky": "^1.10.0",
-    "tablemark": "4.0.0-beta.2",
-    "ts-explicit-errors": "^4.0.0"
+    "tablemark": "4.0.0",
+    "ts-explicit-errors": "^4.0.1"
   },
   "devDependencies": {
-    "@adamhl8/configs": "^0.14.3",
+    "@adamhl8/configs": "^0.15.2",
     "@biomejs/biome": "^2.2.4",
     "@types/bun": "^1.2.21",
     "knip": "^5.63.1",
