@@ -13,7 +13,7 @@
         "ts-explicit-errors": "^4.0.1",
       },
       "devDependencies": {
-        "@adamhl8/configs": "^0.15.2",
+        "@adamhl8/configs": "^0.15.4",
         "@biomejs/biome": "^2.2.4",
         "@types/bun": "^1.2.21",
         "knip": "^5.63.1",
@@ -24,7 +24,7 @@
     },
   },
   "packages": {
-    "@adamhl8/configs": ["@adamhl8/configs@0.15.2", "", { "dependencies": { "@prettier/plugin-xml": "^3.4.2", "prettier-plugin-astro": "^0.14.1", "prettier-plugin-sh": "^0.18.0", "prettier-plugin-tailwindcss": "^0.6.14", "prettier-plugin-toml": "^2.0.6", "remeda": "^2.31.1" } }, "sha512-LBRhAAW9S+1AV+HI6wY/A7zxuO5Aq73Sy0FNlm/1SF3F4DlBPvG4wLTZOQ8RUW8RRIjg250ExuKbVA7gYxN9gA=="],
+    "@adamhl8/configs": ["@adamhl8/configs@0.15.4", "", { "dependencies": { "@prettier/plugin-xml": "^3.4.2", "prettier-plugin-astro": "^0.14.1", "prettier-plugin-sh": "^0.18.0", "prettier-plugin-tailwindcss": "^0.6.14", "prettier-plugin-toml": "^2.0.6", "remeda": "^2.31.1" } }, "sha512-ybiCXyjDV+M9PR2+S67YXXEnIFK3nk6wY+ZL9eAAPmdG9G4OyngyS32pETqmByjNgGF2ibIUYRRkUHax0kSDbA=="],
 
     "@astrojs/compiler": ["@astrojs/compiler@2.12.2", "", {}, "sha512-w2zfvhjNCkNMmMMOn5b0J8+OmUaBL1o40ipMvqcG6NRpdC+lKxmTi48DT8Xw0SzJ3AfmeFLB45zXZXtmbsjcgw=="],
 
