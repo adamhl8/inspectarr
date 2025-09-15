@@ -19,7 +19,7 @@
   "license": "MIT",
   "keywords": ["servarr", "radarr", "sonarr", "arr", "inspect", "query", "filter", "data"],
   "scripts": {
-    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && tsc --noEmit && biome check --write && bun knip-bun",
+    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && tsc --noEmit && biome check --write && adamhl8-knip",
     "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true"
   },
   "dependencies": {
@@ -32,9 +32,9 @@
     "ts-explicit-errors": "^4.0.1"
   },
   "devDependencies": {
-    "@adamhl8/configs": "^0.15.4",
+    "@adamhl8/configs": "^0.15.9",
     "@biomejs/biome": "^2.2.4",
-    "@types/bun": "^1.2.21",
+    "@types/bun": "^1.2.22",
     "knip": "^5.63.1",
     "markdown-toc": "^1.2.0",
     "type-fest": "^4.41.0",
