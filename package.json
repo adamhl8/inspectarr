@@ -32,12 +32,12 @@
     "ts-explicit-errors": "^4.0.1"
   },
   "devDependencies": {
-    "@adamhl8/configs": "^0.15.9",
+    "@adamhl8/configs": "^0.15.15",
     "@biomejs/biome": "^2.2.4",
     "@types/bun": "^1.2.22",
     "knip": "^5.63.1",
     "markdown-toc": "^1.2.0",
-    "type-fest": "^4.41.0",
+    "type-fest": "^5.0.0",
     "typescript": "^5.9.2"
   }
 }
