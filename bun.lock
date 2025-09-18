@@ -13,7 +13,7 @@
         "ts-explicit-errors": "^4.0.1",
       },
       "devDependencies": {
-        "@adamhl8/configs": "^0.15.16",
+        "@adamhl8/configs": "^0.15.19",
         "@biomejs/biome": "^2.2.4",
         "@types/bun": "^1.2.22",
         "knip": "^5.63.1",
@@ -24,7 +24,7 @@
     },
   },
   "packages": {
-    "@adamhl8/configs": ["@adamhl8/configs@0.15.16", "", { "dependencies": { "@prettier/plugin-xml": "^3.4.2", "es-toolkit": "^1.39.10", "prettier-plugin-astro": "^0.14.1", "prettier-plugin-sh": "^0.18.0", "prettier-plugin-tailwindcss": "^0.6.14", "prettier-plugin-toml": "^2.0.6", "remeda": "^2.31.1", "type-fest": "^5.0.0" }, "bin": { "adamhl8-knip": "dist/adamhl8-knip" } }, "sha512-CaO2p9w/EJeAD+YfA/apzJLeVmKGZIRoeL4L9U7elCtDshBdCVi3CTM1JwnHuxNTIZe4bmMmLnmsaXh+eWg94w=="],
+    "@adamhl8/configs": ["@adamhl8/configs@0.15.19", "", { "dependencies": { "@prettier/plugin-xml": "^3.4.2", "es-toolkit": "^1.39.10", "prettier-plugin-astro": "^0.14.1", "prettier-plugin-sh": "^0.18.0", "prettier-plugin-tailwindcss": "^0.6.14", "prettier-plugin-toml": "^2.0.6", "remeda": "^2.31.1", "type-fest": "^5.0.0" }, "bin": { "adamhl8-knip": "dist/adamhl8-knip" } }, "sha512-9W2GuhAfXG65e8dbbwL6T5Vf/cwjkP/tUN6XPBYBSN0r+cCW6nOeL3S1yJBM4cPTp1htVoACYZy2sihwv2xSyw=="],
 
     "@astrojs/compiler": ["@astrojs/compiler@2.13.0", "", {}, "sha512-mqVORhUJViA28fwHYaWmsXSzLO9osbdZ5ImUfxBarqsYdMlPbqAqGJCxsNzvppp1BEzc1mJNjOVvQqeDN8Vspw=="],
 
@@ -270,7 +270,7 @@
 
     "remarkable": ["remarkable@1.7.4", "", { "dependencies": { "argparse": "^1.0.10", "autolinker": "~0.28.0" }, "bin": { "remarkable": "./bin/remarkable.js" } }, "sha512-e6NKUXgX95whv7IgddywbeN/ItCkWbISmc2DiqHJb0wTrqZIexqdco5b8Z3XZoo/48IdNVKM9ZCvTPJ4F5uvhg=="],
 
-    "remeda": ["remeda@2.31.1", "", { "dependencies": { "type-fest": "^4.41.0" } }, "sha512-FRZefcuXbmCoYt8hAITAzW4t8i/RERaGk/+GtRN90eV3NHxsnRKCDIOJVrwrQ6zz77TG/Xyi9mGRfiJWT7DK1g=="],
+    "remeda": ["remeda@2.32.0", "", { "dependencies": { "type-fest": "^4.41.0" } }, "sha512-BZx9DsT4FAgXDTOdgJIc5eY6ECIXMwtlSPQoPglF20ycSWigttDDe88AozEsPPT4OWk5NujroGSBC1phw5uU+w=="],
 
     "repeat-element": ["repeat-element@1.1.4", "", {}, "sha512-LFiNfRcSu7KK3evMyYOuCzv3L10TW7yC1G2/+StMjK8Y6Vqd2MG7r/Qjw4ghtuCOjFvlnms/iMmLqpvW/ES/WQ=="],
 
