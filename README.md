@@ -62,7 +62,7 @@ Inspectarr requires your Radarr/Sonarr URL and API key to connect to your instan
 
 `inspectarr <radarr|sonarr> [options]... [query]`
 
-- Use `inspectarr help <command>` to see more detailed usage information: `inspectarr help sonarr`
+- Use `inspectarr <command> --help` to see more detailed usage info for a specific command.
 
 Running Inspectarr without a query will display _all_ of your downloaded media:
 

@@ -27,7 +27,7 @@ export function getServiceInfo(): ServiceInfo {
   const runOptions: RunOptions = {
     programName: "inspectarr",
     brief: message`Inspectarr (v${text(packageJson.version)}) - ${text(packageJson.description)}`,
-    help: "both",
+    help: "option",
     version: packageJson.version,
     showDefault: { prefix: " [default: " },
   }
