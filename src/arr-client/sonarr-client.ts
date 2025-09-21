@@ -3,7 +3,7 @@ import { err, isErr } from "ts-explicit-errors"
 
 import { ArrClient } from "~/arr-client/arr-client.ts"
 import type { SonarrMediaData, SonarrOptions } from "~/cli/sonarr.ts"
-import type { paths } from "~/generated/sonarr-schema.js"
+import type { paths } from "~/generated/sonarr-schema.ts"
 import { formatSize, getRawResolution } from "~/utils.ts"
 
 type SonarrAllMedia = paths["/api/v3/series"]["get"]["responses"]["200"]["content"]["application/json"]
