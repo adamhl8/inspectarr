@@ -23,8 +23,8 @@
     "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true"
   },
   "dependencies": {
-    "@optique/core": "^0.5.0-dev.83",
-    "@optique/run": "^0.5.0-dev.83",
+    "@optique/core": "^0.5.0",
+    "@optique/run": "^0.5.0",
     "es-toolkit": "^1.39.10",
     "filterql": "^3.0.2",
     "ky": "^1.10.0",
