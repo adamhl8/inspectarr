@@ -7,3 +7,140 @@ jobs:
       contents: write
     uses: adamhl8/configs/.github/workflows/release.yml@main
     secrets: inherit
+
+  tag:
+    needs: release
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Get release tag
+        id: tag
+        run: echo "tag=$(git describe --tags --abbrev=0)" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: tag
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - target: x86_64-pc-windows-msvc
+            binary: inspectarr.exe
+            artifact: inspectarr-windows-x64.exe
+          - target: x86_64-apple-darwin
+            binary: inspectarr
+            artifact: inspectarr-macos-x64
+          - target: aarch64-apple-darwin
+            binary: inspectarr
+            artifact: inspectarr-macos-arm64
+          - target: x86_64-unknown-linux-gnu
+            binary: inspectarr
+            artifact: inspectarr-linux-x64
+          - target: aarch64-unknown-linux-gnu
+            binary: inspectarr
+            artifact: inspectarr-linux-arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.tag.outputs.tag }}
+
+      - name: Set up nub
+        uses: nubjs/setup-nub@v0
+        with:
+          node-version: "26"
+
+      - name: Install
+        run: nub i --ignore-scripts
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: latest
+
+      - name: Build binary
+        run: deno compile -A --node-modules-dir=manual --bundle --minify --target=${{ matrix.target }} -o inspectarr src/index.ts
+
+      - name: Rename binary
+        run: mv ${{ matrix.binary }} ${{ matrix.artifact }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.artifact }}
+
+  publish:
+    needs: [tag, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      TAG: ${{ needs.tag.outputs.tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.tag.outputs.tag }}
+
+      - name: Set up nub
+        uses: nubjs/setup-nub@v0
+        with:
+          node-version: "26"
+
+      - name: Install
+        run: nub i --ignore-scripts
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: ./artifacts
+          merge-multiple: true
+
+      - name: Attach binaries to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${TAG}" ./artifacts/* --clobber
+
+      - name: Process package templates
+        run: |
+          nub ./package_templates/template-processor.ts "${TAG#v}"
+
+      - name: Set up git
+        run: |
+          git config --global user.email adamhl@pm.me
+          git config --global user.name "GitHub Actions"
+
+      - name: Update homebrew tap
+        env:
+          INSPECTARR_PACKAGE_TOKEN: ${{ secrets.INSPECTARR_PACKAGE_TOKEN }}
+        run: |
+          REPO="https://adamhl8:${INSPECTARR_PACKAGE_TOKEN}@github.com/adamhl8/homebrew-inspectarr.git"
+          CLONE_DIR=$(mktemp -d)
+          git clone --depth 1 "${REPO}" "${CLONE_DIR}"
+          cp ./package_templates/homebrew/inspectarr.rb "${CLONE_DIR}/Formula/inspectarr.rb"
+          cd "${CLONE_DIR}"
+          git add -A
+          git commit -m "${TAG}"
+          git push "${REPO}"
+
+      - name: Update scoop bucket
+        env:
+          INSPECTARR_PACKAGE_TOKEN: ${{ secrets.INSPECTARR_PACKAGE_TOKEN }}
+        run: |
+          REPO="https://adamhl8:${INSPECTARR_PACKAGE_TOKEN}@github.com/adamhl8/scoop-inspectarr.git"
+          CLONE_DIR=$(mktemp -d)
+          git clone --depth 1 "${REPO}" "${CLONE_DIR}"
+          cp ./package_templates/scoop/inspectarr.json "${CLONE_DIR}/inspectarr.json"
+          cd "${CLONE_DIR}"
+          git add -A
+          git commit -m "${TAG}"
+          git push "${REPO}"

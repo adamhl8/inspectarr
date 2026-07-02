@@ -45,7 +45,7 @@ Binaries are available on the [releases](https://github.com/adamhl8/inspectarr/r
 
 <details>
   <summary><i>Why are the binaries so big?</i></summary>
-  This project is written in TypeScript and the binaries are generated via <a href="https://bun.com/docs/bundler/executables">Bun's compile feature</a>. The Bun runtime itself is included in the binary, hence the size.
+  This project is written in TypeScript and the binaries are generated via <a href="https://docs.deno.com/runtime/reference/cli/compile/">Deno's compile feature</a>. The Deno runtime itself is included in the binary, hence the size.
 </details>
 
 ## Usage
