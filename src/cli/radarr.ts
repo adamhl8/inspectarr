@@ -1,9 +1,9 @@
-import { command } from "@optique/core/parser"
+import { command } from "@optique/core"
 import type { Schema } from "filterql"
 
-import { baseSchema } from "~/cli/base-fields.ts"
-import { getBaseCommandParser } from "~/cli/base-options.ts"
-import type { SchemaToType, ToMediaData } from "~/cli/types.ts"
+import { baseSchema } from "#/cli/base-fields.ts"
+import { getBaseCommandParser } from "#/cli/base-options.ts"
+import type { SchemaToType, ToMediaData } from "#/cli/types.ts"
 
 export const radarrSchema = {
   ...baseSchema,

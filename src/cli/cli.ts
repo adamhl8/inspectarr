@@ -1,19 +1,18 @@
-import { message, text } from "@optique/core/message"
-import { or } from "@optique/core/parser"
+import { or, message, text } from "@optique/core"
 import type { RunOptions } from "@optique/run"
 import { run } from "@optique/run"
 import { FilterQL } from "filterql"
-import packageJson from "package.json" with { type: "json" }
 
-import type { ArrClient } from "~/arr-client/arr-client.ts"
-import { RadarrClient } from "~/arr-client/radarr-client.ts"
-import { SonarrClient } from "~/arr-client/sonarr-client.ts"
-import { customOperations } from "~/cli/filterql-operations.ts"
-import type { RadarrSchema } from "~/cli/radarr.ts"
-import { radarrCommand, radarrSchema } from "~/cli/radarr.ts"
-import type { SonarrSchema } from "~/cli/sonarr.ts"
-import { sonarrCommand, sonarrSchema } from "~/cli/sonarr.ts"
-import { Logger } from "~/logger.ts"
+import type { ArrClient } from "#/arr-client/arr-client.ts"
+import { RadarrClient } from "#/arr-client/radarr-client.ts"
+import { SonarrClient } from "#/arr-client/sonarr-client.ts"
+import { customOperations } from "#/cli/filterql-operations.ts"
+import type { RadarrSchema } from "#/cli/radarr.ts"
+import { radarrCommand, radarrSchema } from "#/cli/radarr.ts"
+import type { SonarrSchema } from "#/cli/sonarr.ts"
+import { sonarrCommand, sonarrSchema } from "#/cli/sonarr.ts"
+import { Logger } from "#/logger.ts"
+import packageJson from "#package.json" with { type: "json" }
 
 interface ServiceInfo {
   client: ArrClient
@@ -22,7 +21,7 @@ interface ServiceInfo {
   logger: Logger
 }
 
-export function getServiceInfo(): ServiceInfo {
+export const getServiceInfo = (): ServiceInfo => {
   const parser = or(radarrCommand, sonarrCommand)
   const runOptions: RunOptions = {
     programName: "inspectarr",
@@ -34,7 +33,7 @@ export function getServiceInfo(): ServiceInfo {
   const parseResult = run(parser, runOptions)
 
   const { command: serviceName, url, apiKey: serviceApiKey, query = "", all, output, quiet, shortHeaders } = parseResult
-  const serviceUrl = url?.href
+  const serviceUrl = url.href
 
   let client: ArrClient
   let schema: RadarrSchema | SonarrSchema

@@ -1,10 +1,10 @@
 import type { Result } from "ts-explicit-errors"
 import { err, isErr } from "ts-explicit-errors"
 
-import { ArrClient } from "~/arr-client/arr-client.ts"
-import type { SonarrMediaData, SonarrOptions } from "~/cli/sonarr.ts"
-import type { paths } from "~/generated/sonarr-schema.d.ts"
-import { formatSize, getRawResolution } from "~/utils.ts"
+import { ArrClient } from "#/arr-client/arr-client.ts"
+import type { SonarrMediaData, SonarrOptions } from "#/cli/sonarr.ts"
+import type { paths } from "#/generated/sonarr-schema.d.ts"
+import { formatSize, getRawResolution } from "#/utils.ts"
 
 type SonarrAllMedia = paths["/api/v3/series"]["get"]["responses"]["200"]["content"]["application/json"]
 type SonarrSeries = SonarrAllMedia[number]
@@ -15,21 +15,22 @@ type SeriesEpisode = SeriesEpisodes[number] | undefined
 type SeasonArray = SeriesEpisode[] | undefined
 
 /**
- * Represents an array of SeasonArray, where the index represents the season number.
- * Similarly, each SeasonArray represents an array of episodes, where the index represents the episode number.
+ * Represents an array of SeasonArray, where the index represents the season number. Similarly, each SeasonArray
+ * represents an array of episodes, where the index represents the episode number.
  *
- * Seasons/episodes are not guaranteed to be in any particular order, so by creating an array where the index represents the season/episode number, we naturally get the correct order.
+ * Seasons/episodes are not guaranteed to be in any particular order, so by creating an array where the index represents
+ * the season/episode number, we naturally get the correct order.
  *
  * Missing seasons/episodes will be `undefined`, which gives us a good way to detect when they're missing.
  *
  * @example
- * ```ts
- * const seasonsArray: SeasonsArray = [
- *   undefined, // this is season 0, usually undefined
- *   [undefined, { title: "Episode 1" }, { title: "Episode 2" }], // this is season 1 (episode 0 will usually be undefined)
- *   [{ title: "Episode 0" }, { title: "Episode 1" }, { title: "Episode 2" }], // this is season 2
- * ]
- * ```
+ *   ;```ts
+ *   const seasonsArray: SeasonsArray = [
+ *     undefined, // this is season 0, usually undefined
+ *     [undefined, { title: "Episode 1" }, { title: "Episode 2" }], // this is season 1 (episode 0 will usually be undefined)
+ *     [{ title: "Episode 0" }, { title: "Episode 1" }, { title: "Episode 2" }], // this is season 2
+ *   ]
+ *   ```
  */
 type SeasonsArray = SeasonArray[]
 
@@ -59,6 +60,18 @@ const episodeRawResolution = (episode?: SeriesEpisode) => getRawResolution(episo
 const rawEpisodeSize = (episode?: SeriesEpisode) => episode?.episodeFile?.size
 const episodeSize = (episode?: SeriesEpisode) => formatSize(rawEpisodeSize(episode))
 
+/**
+ * Takes a SeasonsArray and iterates through each season and episode, applying the provided episode function to each
+ * episode.
+ *
+ * Returns a flat array of data returned by the episode function.
+ */
+const gatherEpisodeData = <T>(seasons: SeasonsArray, episodeFn: (episode: SeriesEpisode) => T) =>
+  seasons
+    .flatMap((season) => season?.map(episodeFn))
+    .filter(Boolean)
+    .flat() // need to call flat in addition to flatMap because the given episode function may return an array, and flatMap only flattens with depth 1
+
 const getTotalSize = (seasons: SeasonsArray, raw = false) => {
   const isEveryEpisodeSizeUndefined = seasons.every((season) =>
     season?.every((episode) => episode?.episodeFile?.size === undefined),
@@ -72,16 +85,112 @@ const getTotalSize = (seasons: SeasonsArray, raw = false) => {
   return raw ? rawTotalSize : formatSize(rawTotalSize)
 }
 
-/**
- * Takes a SeasonsArray and iterates through each season and episode, applying the provided episode function to each episode.
- *
- * Returns a flat array of data returned by the episode function.
- */
-const gatherEpisodeData = <T>(seasons: SeasonsArray, episodeFn: (episode: SeriesEpisode) => T) =>
-  seasons
-    .flatMap((season) => season?.map(episodeFn))
-    .filter(Boolean)
-    .flat() // need to call flat in addition to flatMap because the given episode function may return an array, and flatMap only flattens with depth 1
+interface SeriesContext {
+  series: SonarrSeries
+  qualityProfiles: SonarrQualityProfiles
+}
+
+const buildEpisodeEntry = (
+  { series, qualityProfiles }: SeriesContext,
+  seasonNumber: number,
+  episode: NonNullable<SeriesEpisode>,
+) => ({
+  title: seriesTitle(series),
+  year: seriesYear(series),
+  season: seasonIdentifier(seasonNumber),
+  episode: episodeIdentifier(episode),
+  type: seriesType(series),
+  monitored: episode.monitored,
+  qualityProfile: seriesQualityProfile(series, qualityProfiles),
+  releaseGroup: episodeReleaseGroup(episode),
+  source: episodeSource(episode),
+  videoCodec: episodeVideoCodec(episode),
+  audioCodec: episodeAudioCodec(episode),
+  audioChannels: episodeAudioChannels(episode),
+  audioLanguage: episodeAudioLanguage(episode),
+  subtitleLanguage: episodeSubtitleLanguage(episode),
+  resolution: episodeResolution(episode),
+  rawResolution: episodeRawResolution(episode),
+  size: episodeSize(episode),
+  rawSize: rawEpisodeSize(episode),
+})
+
+const buildSeasonEntry = (
+  { series, qualityProfiles }: SeriesContext,
+  seasonNumber: number,
+  season: NonNullable<SeasonArray>,
+) => ({
+  title: seriesTitle(series),
+  year: seriesYear(series),
+  season: seasonIdentifier(seasonNumber),
+  type: seriesType(series),
+  monitored: series.seasons?.find((seasonElement) => seasonElement.seasonNumber === seasonNumber)?.monitored,
+  qualityProfile: seriesQualityProfile(series, qualityProfiles),
+  releaseGroup: gatherEpisodeData([season], episodeReleaseGroup),
+  source: gatherEpisodeData([season], episodeSource),
+  videoCodec: gatherEpisodeData([season], episodeVideoCodec),
+  audioCodec: gatherEpisodeData([season], episodeAudioCodec),
+  audioChannels: gatherEpisodeData([season], episodeAudioChannels),
+  audioLanguage: gatherEpisodeData([season], episodeAudioLanguage),
+  subtitleLanguage: gatherEpisodeData([season], episodeSubtitleLanguage),
+  resolution: gatherEpisodeData([season], episodeResolution),
+  rawResolution: gatherEpisodeData([season], episodeRawResolution),
+  size: getTotalSize([season]),
+  rawSize: getTotalSize([season], true),
+})
+
+const buildSeriesEntry = (series: SonarrSeries, seasons: SeasonsArray, qualityProfiles: SonarrQualityProfiles) => ({
+  title: seriesTitle(series),
+  year: seriesYear(series),
+  type: seriesType(series),
+  monitored: series.monitored,
+  qualityProfile: seriesQualityProfile(series, qualityProfiles),
+  releaseGroup: gatherEpisodeData(seasons, episodeReleaseGroup),
+  source: gatherEpisodeData(seasons, episodeSource),
+  videoCodec: gatherEpisodeData(seasons, episodeVideoCodec),
+  audioCodec: gatherEpisodeData(seasons, episodeAudioCodec),
+  audioChannels: gatherEpisodeData(seasons, episodeAudioChannels),
+  audioLanguage: gatherEpisodeData(seasons, episodeAudioLanguage),
+  subtitleLanguage: gatherEpisodeData(seasons, episodeSubtitleLanguage),
+  resolution: gatherEpisodeData(seasons, episodeResolution),
+  rawResolution: gatherEpisodeData(seasons, episodeRawResolution),
+  size: getTotalSize(seasons),
+  rawSize: getTotalSize(seasons, true),
+})
+
+const byEpisodeData = (
+  allSeriesBySeason: SeriesBySeason[],
+  qualityProfiles: SonarrQualityProfiles,
+): SonarrMediaData => {
+  const data: SonarrMediaData = []
+  for (const { series, seasons } of allSeriesBySeason) {
+    const context = { series, qualityProfiles }
+    for (const [seasonNumber, season] of seasons.entries()) {
+      if (!season) continue
+      for (const episode of season) if (episode) data.push(buildEpisodeEntry(context, seasonNumber, episode))
+    }
+  }
+  return data
+}
+
+const bySeasonData = (allSeriesBySeason: SeriesBySeason[], qualityProfiles: SonarrQualityProfiles): SonarrMediaData => {
+  const data: SonarrMediaData = []
+  for (const { series, seasons } of allSeriesBySeason) {
+    const context = { series, qualityProfiles }
+    for (const [seasonNumber, season] of seasons.entries())
+      if (season) data.push(buildSeasonEntry(context, seasonNumber, season))
+  }
+  return data
+}
+
+const bySeriesData = (allSeriesBySeason: SeriesBySeason[], qualityProfiles: SonarrQualityProfiles): SonarrMediaData => {
+  const data: SonarrMediaData = []
+  for (const { series, seasons } of allSeriesBySeason) {
+    if (seasons.flat().length === 0) continue
+    data.push(buildSeriesEntry(series, seasons, qualityProfiles))
+  }
+  return data
+}
 
 export class SonarrClient extends ArrClient {
   readonly #options: SonarrOptions
@@ -92,10 +201,10 @@ export class SonarrClient extends ArrClient {
   }
 
   public async getAllMedia(): Promise<Result<SonarrAllMedia>> {
-    return await this.makeRequest<SonarrAllMedia>("series")
+    return this.makeRequest<SonarrAllMedia>("series")
   }
 
-  public getAllQualityProfiles(): Promise<Result<SonarrQualityProfiles>> {
+  public async getAllQualityProfiles(): Promise<Result<SonarrQualityProfiles>> {
     return this.makeRequest<SonarrQualityProfiles>("qualityprofile")
   }
 
@@ -110,15 +219,14 @@ export class SonarrClient extends ArrClient {
     const allMedia = await this.getAllMedia()
     if (isErr(allMedia)) return err("failed to get sonarr media", allMedia)
 
-    const allSeriesBySeason: SeriesBySeason[] = []
-
     const processSeries = async (series: SonarrSeries) => {
       const episodes = await this.getAllEpisodesForSeries(series)
       if (isErr(episodes)) return episodes
 
       const seasons: SeasonArray[] = []
       for (const episode of episodes) {
-        let { hasFile, seasonNumber, episodeNumber, absoluteEpisodeNumber } = episode
+        const { hasFile, absoluteEpisodeNumber } = episode
+        let { seasonNumber, episodeNumber } = episode
         if (!hasFile) continue
 
         // if both the seasonNumber and episodeNumber are undefined, this is probably a series of type 'daily', in which case we use the absoluteEpisodeNumber
@@ -127,28 +235,28 @@ export class SonarrClient extends ArrClient {
           episodeNumber = absoluteEpisodeNumber ?? 0
         }
 
-        if (seasonNumber === undefined || episodeNumber === undefined)
+        if (seasonNumber === undefined || episodeNumber === undefined) {
           return err(
-            `Unexpected invalid episode data for series '${series.title}': ${JSON.stringify(series, null, 2)} ${JSON.stringify(episode, null, 2)}`,
+            `Unexpected invalid episode data for series '${series.title}': ${JSON.stringify(series, undefined, 2)} ${JSON.stringify(episode, undefined, 2)}`,
             undefined,
           )
+        }
 
-        seasons[seasonNumber] ??= []
-        const season = seasons[seasonNumber]
-        if (!season) return
+        const season = seasons[seasonNumber] ?? []
+        seasons[seasonNumber] = season
         season[episodeNumber] = episode
       }
 
-      const seriesBySeason: SeriesBySeason = { series, seasons }
-      allSeriesBySeason.push(seriesBySeason)
-
-      return
+      return { series, seasons }
     }
 
     const processSeriesPromises = allMedia.map(async (series) => processSeries(series))
     const processSeriesResults = await Promise.all(processSeriesPromises)
+
+    const allSeriesBySeason: SeriesBySeason[] = []
     for (const result of processSeriesResults) {
       if (isErr(result)) return err("failed to process series", result)
+      allSeriesBySeason.push(result)
     }
 
     return allSeriesBySeason
@@ -161,86 +269,8 @@ export class SonarrClient extends ArrClient {
     const qualityProfiles = await this.getAllQualityProfiles()
     if (isErr(qualityProfiles)) return err("failed to get sonarr quality profiles", qualityProfiles)
 
-    const data: SonarrMediaData = []
-
-    if (this.#options.byEpisode) {
-      for (const { series, seasons } of allSeriesBySeason) {
-        for (const [seasonNumber, season] of seasons.entries()) {
-          if (!season) continue
-          for (const episode of season) {
-            if (!episode) continue
-            data.push({
-              title: seriesTitle(series),
-              year: seriesYear(series),
-              season: seasonIdentifier(seasonNumber),
-              episode: episodeIdentifier(episode),
-              type: seriesType(series),
-              monitored: episode?.monitored,
-              qualityProfile: seriesQualityProfile(series, qualityProfiles),
-              releaseGroup: episodeReleaseGroup(episode),
-              source: episodeSource(episode),
-              videoCodec: episodeVideoCodec(episode),
-              audioCodec: episodeAudioCodec(episode),
-              audioChannels: episodeAudioChannels(episode),
-              audioLanguage: episodeAudioLanguage(episode),
-              subtitleLanguage: episodeSubtitleLanguage(episode),
-              resolution: episodeResolution(episode),
-              rawResolution: episodeRawResolution(episode),
-              size: episodeSize(episode),
-              rawSize: rawEpisodeSize(episode),
-            })
-          }
-        }
-      }
-    } else if (this.#options.bySeason) {
-      for (const { series, seasons } of allSeriesBySeason) {
-        for (const [seasonNumber, season] of seasons.entries()) {
-          if (!season) continue
-          data.push({
-            title: seriesTitle(series),
-            year: seriesYear(series),
-            season: seasonIdentifier(seasonNumber),
-            type: seriesType(series),
-            monitored: series.seasons?.find((seasonElement) => seasonElement.seasonNumber === seasonNumber)?.monitored,
-            qualityProfile: seriesQualityProfile(series, qualityProfiles),
-            releaseGroup: gatherEpisodeData([season], episodeReleaseGroup),
-            source: gatherEpisodeData([season], episodeSource),
-            videoCodec: gatherEpisodeData([season], episodeVideoCodec),
-            audioCodec: gatherEpisodeData([season], episodeAudioCodec),
-            audioChannels: gatherEpisodeData([season], episodeAudioChannels),
-            audioLanguage: gatherEpisodeData([season], episodeAudioLanguage),
-            subtitleLanguage: gatherEpisodeData([season], episodeSubtitleLanguage),
-            resolution: gatherEpisodeData([season], episodeResolution),
-            rawResolution: gatherEpisodeData([season], episodeRawResolution),
-            size: getTotalSize([season]),
-            rawSize: getTotalSize([season], true),
-          })
-        }
-      }
-    } else {
-      for (const { series, seasons } of allSeriesBySeason) {
-        if (seasons.flat().length === 0) continue
-        data.push({
-          title: seriesTitle(series),
-          year: seriesYear(series),
-          type: seriesType(series),
-          monitored: series.monitored,
-          qualityProfile: seriesQualityProfile(series, qualityProfiles),
-          releaseGroup: gatherEpisodeData(seasons, episodeReleaseGroup),
-          source: gatherEpisodeData(seasons, episodeSource),
-          videoCodec: gatherEpisodeData(seasons, episodeVideoCodec),
-          audioCodec: gatherEpisodeData(seasons, episodeAudioCodec),
-          audioChannels: gatherEpisodeData(seasons, episodeAudioChannels),
-          audioLanguage: gatherEpisodeData(seasons, episodeAudioLanguage),
-          subtitleLanguage: gatherEpisodeData(seasons, episodeSubtitleLanguage),
-          resolution: gatherEpisodeData(seasons, episodeResolution),
-          rawResolution: gatherEpisodeData(seasons, episodeRawResolution),
-          size: getTotalSize(seasons),
-          rawSize: getTotalSize(seasons, true),
-        })
-      }
-    }
-
-    return data
+    if (this.#options.byEpisode) return byEpisodeData(allSeriesBySeason, qualityProfiles)
+    if (this.#options.bySeason) return bySeasonData(allSeriesBySeason, qualityProfiles)
+    return bySeriesData(allSeriesBySeason, qualityProfiles)
   }
 }

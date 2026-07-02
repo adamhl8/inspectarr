@@ -1,10 +1,12 @@
+// oxlint-disable unicorn/no-null - null is used intentionally as a JSON value
 import { uniq } from "es-toolkit"
 import ky from "ky"
 import type { Result } from "ts-explicit-errors"
 import { attempt, err, isErr } from "ts-explicit-errors"
-import type { Entries } from "type-fest"
+import { objectEntries, objectFromEntries } from "ts-extras"
+import type { JsonPrimitive } from "type-fest"
 
-import type { JsonifiableMediaData, MediaData } from "~/cli/types.ts"
+import type { AllMediaDataKeys, JsonifiableMediaData, MediaData } from "#/cli/types.ts"
 
 export abstract class ArrClient {
   public name: string
@@ -18,16 +20,16 @@ export abstract class ArrClient {
   }
 
   public async makeRequest<T>(endpoint: string): Promise<Result<T>> {
-    const prefixUrl = `${this.#baseUrl}/api/v3`
+    const prefix = `${this.#baseUrl}/api/v3`
     const headers = {
       "X-Api-Key": this.#apiKey,
       Accept: "application/json",
     }
 
-    const response = await attempt(() => ky(endpoint, { prefixUrl, headers, retry: 2 }))
+    const response = await attempt(async () => ky(endpoint, { prefix, headers, retry: 2 }))
     if (isErr(response)) return err(`failed to make request to '${endpoint}'`, response)
 
-    const data = await attempt(() => response.json<T>())
+    const data = await attempt(async () => response.json<T>())
     if (isErr(data)) return err(`failed to parse JSON response from '${endpoint}'`, data)
 
     return data
@@ -42,8 +44,8 @@ export abstract class ArrClient {
     if (isErr(mediaData)) return err("failed to get media data", mediaData)
 
     const normalizedMediaData: JsonifiableMediaData = mediaData.map((dataObject) => {
-      const dataObjectEntries = Object.entries(dataObject) as Entries<typeof dataObject>
-      const normalizedDataObjectEntries = dataObjectEntries.map(([key, value]) => {
+      const dataObjectEntries = objectEntries(dataObject)
+      const normalizedDataObjectEntries = dataObjectEntries.map(([key, value]): [AllMediaDataKeys, JsonPrimitive] => {
         if (Array.isArray(value)) {
           const uniqueString = uniq(value).join(",").trim()
           return [key, uniqueString || null] // empty arrays should be null
@@ -53,7 +55,7 @@ export abstract class ArrClient {
         return [key, value]
       })
 
-      return Object.fromEntries(normalizedDataObjectEntries)
+      return objectFromEntries(normalizedDataObjectEntries)
     })
 
     return normalizedMediaData

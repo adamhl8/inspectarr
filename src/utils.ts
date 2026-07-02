@@ -1,22 +1,25 @@
-import type { DataObject } from "filterql"
-import type { Simplify } from "type-fest"
+import type { JsonPrimitive } from "type-fest"
 
-/**
- * Creates a new object with specified keys removed
- * @param obj The source object
- * @param keysToRemove Array of keys to exclude from the result
- * @returns A new object without the specified keys
- */
-export function omit<T extends DataObject, K extends keyof T>(obj: T, keysToRemove: K[]): Simplify<Omit<T, K>> {
-  const keysSet = new Set(keysToRemove)
-  return Object.fromEntries(Object.entries(obj).filter(([key]) => !keysSet.has(key as K))) as Omit<T, K>
+/** Stringifies any value without ever producing "[object Object]", mapping null/undefined to "". */
+export const stringifyValue = (value: unknown): string => {
+  if (value === null || value === undefined) return ""
+  if (typeof value === "string") return value
+  if (typeof value === "number" || typeof value === "boolean" || typeof value === "bigint") return value.toString()
+  return JSON.stringify(value)
 }
 
-export function formatQualifiedValue(primary: unknown, secondary: unknown, tertiary?: unknown): string {
-  return `${tertiary ? `[${tertiary}] ` : ""}${primary ?? ""}${secondary ? ` (${secondary})` : ""}`.trim()
+export const formatQualifiedValue = (
+  primary: JsonPrimitive | undefined,
+  secondary: JsonPrimitive | undefined,
+  tertiary?: JsonPrimitive,
+): string => {
+  const tertiaryPart = tertiary ? `[${stringifyValue(tertiary)}] ` : ""
+  const primaryPart = stringifyValue(primary ?? "")
+  const secondaryPart = secondary ? ` (${stringifyValue(secondary)})` : ""
+  return `${tertiaryPart}${primaryPart}${secondaryPart}`.trim()
 }
 
-export function formatSize(bytes: number | undefined): string | undefined {
+export const formatSize = (bytes: number | undefined): string | undefined => {
   if (bytes === undefined) return
   if (bytes === 0) return "0 B"
 
@@ -24,10 +27,10 @@ export function formatSize(bytes: number | undefined): string | undefined {
   const k = 1000
   const i = Math.floor(Math.log(bytes) / Math.log(k))
 
-  return `${Number.parseFloat((bytes / k ** i).toFixed(2))} ${units[i]}`
+  return `${Number((bytes / k ** i).toFixed(2))} ${units[i]}`
 }
 
-export function getRawResolution(resolution: string | null | undefined): number | undefined {
+export const getRawResolution = (resolution: string | null | undefined): number | undefined => {
   if (resolution === undefined || resolution === null) return
 
   // "1920x1080,720x480" -> [[1920, 1080], [720, 480]]

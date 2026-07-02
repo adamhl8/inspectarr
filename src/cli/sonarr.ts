@@ -1,12 +1,12 @@
-import { message } from "@optique/core/message"
-import type { InferValue } from "@optique/core/parser"
-import { command, merge, object, option } from "@optique/core/parser"
+import { command, merge, object, option, message } from "@optique/core"
+import type { InferValue } from "@optique/core"
 import type { Schema } from "filterql"
+import { objectKeys } from "ts-extras"
 import type { SetOptional } from "type-fest"
 
-import { baseSchema } from "~/cli/base-fields.ts"
-import { getBaseCommandParser } from "~/cli/base-options.ts"
-import type { SchemaToType, ToMediaData } from "~/cli/types.ts"
+import { baseSchema } from "#/cli/base-fields.ts"
+import { getBaseCommandParser } from "#/cli/base-options.ts"
+import type { SchemaToType, ToMediaData } from "#/cli/types.ts"
 
 const sonarrOptions = object("Sonarr options", {
   bySeason: option("--by-season", {
@@ -26,7 +26,7 @@ const sonarrHiddenFields = {
     type: "string",
   },
 } as const satisfies Schema
-export const sonarrHiddenFieldKeys = Object.keys(sonarrHiddenFields) as (keyof typeof sonarrHiddenFields)[]
+export const sonarrHiddenFieldKeys = objectKeys(sonarrHiddenFields)
 
 export const sonarrSchema = {
   ...baseSchema,

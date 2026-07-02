@@ -1,43 +1,66 @@
 {
   "name": "inspectarr",
   "version": "1.3.1",
-  "type": "module",
   "description": "A CLI tool for querying and inspecting the media in your Radarr and Sonarr instances",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/adamhl8/inspectarr"
-  },
+  "keywords": [
+    "arr",
+    "data",
+    "filter",
+    "inspect",
+    "query",
+    "radarr",
+    "servarr",
+    "sonarr"
+  ],
   "homepage": "https://github.com/adamhl8/inspectarr",
   "bugs": {
     "url": "https://github.com/adamhl8/inspectarr/issues"
   },
+  "license": "MIT",
   "author": {
-    "email": "adamhl@pm.me",
     "name": "Adam Langbert",
+    "email": "adamhl@pm.me",
     "url": "https://github.com/adamhl8"
   },
-  "license": "MIT",
-  "keywords": ["servarr", "radarr", "sonarr", "arr", "inspect", "query", "filter", "data"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adamhl8/inspectarr"
+  },
+  "type": "module",
+  "imports": {
+    "#/*": "./src/*",
+    "#package.json": "./package.json"
+  },
   "scripts": {
-    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && ts-import-fix -w && tsc --noEmit && biome check --write && adamhl8-knip",
-    "prepare": "find .githooks -type f -exec ln -srf {} .git/hooks/ \\; || true"
+    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously && adamhl8-knip",
+    "bump-deps": "nub update -L && rm -f lock.yaml && nub i && oxfmt lock.yaml",
+    "bundle": "nub run lint",
+    "release": "gh workflow run release.yml",
+    "release:run": "release-it --ci -i \"$(adamhl8-cliff --bumped-version)\"",
+    "prepare": "lefthook install"
   },
   "dependencies": {
-    "@optique/core": "^0.5.1",
-    "@optique/run": "^0.5.1",
-    "es-toolkit": "^1.39.10",
-    "filterql": "^3.0.2",
-    "ky": "^1.11.0",
+    "@optique/core": "^1.1.1",
+    "@optique/run": "^1.1.1",
+    "es-toolkit": "^1.49.0",
+    "filterql": "^3.0.3",
+    "ky": "^2.0.2",
     "tablemark": "4.1.0",
-    "ts-explicit-errors": "^4.0.1"
+    "ts-explicit-errors": "^4.1.2",
+    "ts-extras": "^1.2.0"
   },
   "devDependencies": {
-    "@adamhl8/configs": "^0.17.5",
-    "@biomejs/biome": "^2.2.4",
-    "@types/bun": "^1.2.23",
-    "knip": "^5.64.1",
+    "@adamhl8/configs": "^0.24.9",
+    "@commitlint/cli": "^21.2.0",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@types/node": "^26.1.0",
+    "knip": "^6.23.0",
     "markdown-toc": "^1.2.0",
-    "type-fest": "^5.0.1",
-    "typescript": "^5.9.2"
+    "oxfmt": "^0.57.0",
+    "oxlint": "^1.72.0",
+    "oxlint-tsgolint": "^0.24.0",
+    "release-it": "^20.2.1",
+    "type-fest": "^5.7.0",
+    "typescript": "^6.0.3"
   }
 }

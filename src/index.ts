@@ -1,19 +1,20 @@
 import process from "node:process"
+
 import type { Result } from "ts-explicit-errors"
 import { attempt, err, isErr } from "ts-explicit-errors"
 
-import { getServiceInfo } from "~/cli/cli.ts"
-import type { JsonifiableMediaData } from "~/cli/types.ts"
-import { formatSize } from "~/utils.ts"
+import { getServiceInfo } from "#/cli/cli.ts"
+import type { JsonifiableMediaData } from "#/cli/types.ts"
+import { formatSize } from "#/utils.ts"
 
-function getStats(mediaData: JsonifiableMediaData) {
+const getStats = (mediaData: JsonifiableMediaData) => {
   const totalMedia = mediaData.length
-  const totalSize = mediaData.reduce((acc, media) => acc + ((media.rawSize as number) ?? 0), 0)
+  const totalSize = mediaData.reduce((acc, media) => acc + (typeof media.rawSize === "number" ? media.rawSize : 0), 0)
 
   return `${totalMedia} media entries with a size of ${formatSize(totalSize)}`
 }
 
-async function inspectarr(): Promise<Result> {
+const inspectarr = async (): Promise<Result> => {
   const { client, filterql, query, logger } = getServiceInfo()
 
   logger.info("Fetching media...")
@@ -45,7 +46,7 @@ async function inspectarr(): Promise<Result> {
   logger.printMediaData(transformedMedia)
 }
 
-async function main(): Promise<number> {
+const main = async (): Promise<number> => {
   const result = await inspectarr()
   if (isErr(result)) {
     console.error(result.messageChain)
