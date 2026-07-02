@@ -1,6 +1,6 @@
 {
   "name": "inspectarr",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "private": true,
   "description": "A CLI tool for querying and inspecting the media in your Radarr and Sonarr instances",
   "keywords": [
