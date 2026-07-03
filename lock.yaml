@@ -33,8 +33,8 @@ importers:
         version: 1.2.0
     devDependencies:
       "@adamhl8/configs":
-        specifier: ^0.24.9
-        version: 0.24.9(@commitlint/cli@21.2.0)(@commitlint/config-conventional@21.2.0)(@types/node@26.1.0)(eslint@10.6.0)(knip@6.23.0)(oxfmt@0.57.0)(oxlint@1.72.0(oxlint-tsgolint@0.24.0))(oxlint-tsgolint@0.24.0)(release-it@20.2.1)(typescript@6.0.3)
+        specifier: ^0.24.13
+        version: 0.24.13(@commitlint/cli@21.2.0)(@commitlint/config-conventional@21.2.0)(@types/node@26.1.0)(eslint@10.6.0)(knip@6.24.0)(oxfmt@0.57.0)(oxlint@1.72.0(oxlint-tsgolint@0.24.0))(oxlint-tsgolint@0.24.0)(release-it@20.2.1)(typescript@6.0.3)
       "@commitlint/cli":
         specifier: ^21.2.0
         version: 21.2.0(@types/node@26.1.0)(typescript@6.0.3)
@@ -45,8 +45,8 @@ importers:
         specifier: ^26.1.0
         version: 26.1.0
       knip:
-        specifier: ^6.23.0
-        version: 6.23.0
+        specifier: ^6.24.0
+        version: 6.24.0
       markdown-toc:
         specifier: ^1.2.0
         version: 1.2.0
@@ -70,9 +70,9 @@ importers:
         version: 6.0.3
 
 packages:
-  "@adamhl8/configs@0.24.9":
+  "@adamhl8/configs@0.24.13":
     resolution:
-      { integrity: sha512-zAbFG3OQq98eE31XZYGklT8fhPcALWmZQTHG97HKdTrc1zvkuekGqYW9TVKZwIXord+hoBq5PmgqWq1nPtcuFg== }
+      { integrity: sha512-ZqM8verXlqG2ywLT4eCVAl3XlKC7EDMIW/YtukU4dJfg0qwne2QVEnXXRDRrMH/571J834Ug7NyOvRB9nUavWg== }
     hasBin: true
     peerDependencies:
       "@arethetypeswrong/core": ">=0.18"
@@ -1975,9 +1975,9 @@ packages:
       { integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw== }
     engines: { node: ">=0.10.0" }
 
-  knip@6.23.0:
+  knip@6.24.0:
     resolution:
-      { integrity: sha512-2DvAOX2pZWiG4SLvRRxOAU0aWGEn1ZoVblI541xIoXFdHqq2THMZXy66/qcY5WGuW3TXhb9T1x1zd/Hd1u+yqg== }
+      { integrity: sha512-PokLlgeEjLh1rAsB7ts+52wZ37HBr1nDhE6NNONwEaXdeZGCJOkP7ZlIAI2Gtu8xohquzTWy75bc/1diI9shQw== }
     engines: { node: ^20.19.0 || >=22.12.0 }
     hasBin: true
 
@@ -2709,14 +2709,14 @@ packages:
       { integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ== }
 
 snapshots:
-  "@adamhl8/configs@0.24.9(@commitlint/cli@21.2.0)(@commitlint/config-conventional@21.2.0)(@types/node@26.1.0)(eslint@10.6.0)(knip@6.23.0)(oxfmt@0.57.0)(oxlint@1.72.0(oxlint-tsgolint@0.24.0))(oxlint-tsgolint@0.24.0)(release-it@20.2.1)(typescript@6.0.3)":
+  "@adamhl8/configs@0.24.13(@commitlint/cli@21.2.0)(@commitlint/config-conventional@21.2.0)(@types/node@26.1.0)(eslint@10.6.0)(knip@6.24.0)(oxfmt@0.57.0)(oxlint@1.72.0(oxlint-tsgolint@0.24.0))(oxlint-tsgolint@0.24.0)(release-it@20.2.1)(typescript@6.0.3)":
     dependencies:
       "@adamhl8/eslint-plugin-clean-modules": 0.1.3(eslint@10.6.0)(typescript@6.0.3)
       "@commitlint/cli": 21.2.0(@types/node@26.1.0)(typescript@6.0.3)
       "@commitlint/config-conventional": 21.2.0
       "@commitlint/types": 21.2.0
       es-toolkit: 1.49.0
-      knip: 6.23.0
+      knip: 6.24.0
       oxfmt: 0.57.0
       oxlint: 1.72.0(oxlint-tsgolint@0.24.0)
       oxlint-tsgolint: 0.24.0
@@ -4014,7 +4014,7 @@ snapshots:
 
   kind-of@6.0.3: {}
 
-  knip@6.23.0:
+  knip@6.24.0:
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
       formatly: 0.3.0
