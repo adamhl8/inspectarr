@@ -51,11 +51,11 @@
     "ts-extras": "^1.2.0"
   },
   "devDependencies": {
-    "@adamhl8/configs": "^0.24.9",
+    "@adamhl8/configs": "^0.24.13",
     "@commitlint/cli": "^21.2.0",
     "@commitlint/config-conventional": "^21.2.0",
     "@types/node": "^26.1.0",
-    "knip": "^6.23.0",
+    "knip": "^6.24.0",
     "markdown-toc": "^1.2.0",
     "oxfmt": "^0.57.0",
     "oxlint": "^1.72.0",
