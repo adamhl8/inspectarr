@@ -33,8 +33,8 @@ importers:
         version: 1.2.0
     devDependencies:
       "@adamhl8/configs":
-        specifier: ^0.27.3
-        version: 0.27.3(@commitlint/cli@21.2.0)(@commitlint/config-conventional@21.2.0)(@types/node@26.1.0)(eslint@10.6.0)(knip@6.24.0)(oxfmt@0.57.0)(oxlint@1.72.0(oxlint-tsgolint@0.24.0))(oxlint-tsgolint@0.24.0)(release-it@20.2.1)(typescript@6.0.3)
+        specifier: ^0.28.1
+        version: 0.28.1(@commitlint/cli@21.2.0)(@commitlint/config-conventional@21.2.0)(@types/node@26.1.0)(eslint@10.6.0)(knip@6.24.0)(markdown-toc@1.2.0)(oxfmt@0.57.0)(oxlint@1.72.0(oxlint-tsgolint@0.24.0))(oxlint-tsgolint@0.24.0)(release-it@20.2.1)(typescript@6.0.3)
       "@commitlint/cli":
         specifier: ^21.2.0
         version: 21.2.0(@types/node@26.1.0)(typescript@6.0.3)
@@ -70,15 +70,16 @@ importers:
         version: 6.0.3
 
 packages:
-  "@adamhl8/configs@0.27.3":
+  "@adamhl8/configs@0.28.1":
     resolution:
-      { integrity: sha512-Qp4encWTyl/2zSr04E4Bq7Cp7T37HCbF5iBx/MBbDhXdxP9AoxViDiD97E4tWK+PqqgDS6na0p9y7vUVPUJF1g== }
+      { integrity: sha512-BNTtMIjw9W4F+JTSv2EVp8cYBhoKMbCUdxEeZw3gLOdCbLGzjccqvFg/PkzjLek2xdUPNxMxJzB9yT9mReTBdA== }
     hasBin: true
     peerDependencies:
       "@arethetypeswrong/core": ">=0.18"
       "@commitlint/cli": ">=21"
       "@commitlint/config-conventional": ">=21"
       knip: ">=6"
+      markdown-toc: ">=1"
       oxfmt: ">=0.50"
       oxlint: ">=1"
       oxlint-tsgolint: ">=0.24"
@@ -95,6 +96,8 @@ packages:
       "@commitlint/config-conventional":
         optional: true
       knip:
+        optional: true
+      markdown-toc:
         optional: true
       oxfmt:
         optional: true
@@ -2734,7 +2737,7 @@ packages:
       { integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ== }
 
 snapshots:
-  "@adamhl8/configs@0.27.3(@commitlint/cli@21.2.0)(@commitlint/config-conventional@21.2.0)(@types/node@26.1.0)(eslint@10.6.0)(knip@6.24.0)(oxfmt@0.57.0)(oxlint@1.72.0(oxlint-tsgolint@0.24.0))(oxlint-tsgolint@0.24.0)(release-it@20.2.1)(typescript@6.0.3)":
+  "@adamhl8/configs@0.28.1(@commitlint/cli@21.2.0)(@commitlint/config-conventional@21.2.0)(@types/node@26.1.0)(eslint@10.6.0)(knip@6.24.0)(markdown-toc@1.2.0)(oxfmt@0.57.0)(oxlint@1.72.0(oxlint-tsgolint@0.24.0))(oxlint-tsgolint@0.24.0)(release-it@20.2.1)(typescript@6.0.3)":
     dependencies:
       "@adamhl8/eslint-plugin-clean-modules": 0.1.3(eslint@10.6.0)(typescript@6.0.3)
       "@commitlint/cli": 21.2.0(@types/node@26.1.0)(typescript@6.0.3)
@@ -2744,6 +2747,7 @@ snapshots:
       arktype: 2.2.2
       es-toolkit: 1.49.0
       knip: 6.24.0
+      markdown-toc: 1.2.0
       oxfmt: 0.57.0
       oxlint: 1.72.0(oxlint-tsgolint@0.24.0)
       oxlint-tsgolint: 0.24.0
