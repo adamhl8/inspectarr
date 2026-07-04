@@ -33,9 +33,9 @@
     "#package.json": "./package.json"
   },
   "scripts": {
-    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxfmt && oxlint --fix --fix-suggestions --fix-dangerously && adamhl8-knip",
+    "lint": "markdown-toc -i --bullets '-' --maxdepth 3 ./README.md && oxlint --fix --fix-suggestions --fix-dangerously && oxfmt && knip",
     "bump-deps": "nub update -L && rm -f lock.yaml && nub i && oxfmt lock.yaml",
-    "bundle": "nub run lint",
+    "bundle": "./generate-schemas.sh && nub run lint",
     "release": "gh workflow run release.yml",
     "release:run": "release-it --ci -i \"$(adamhl8-cliff --bumped-version)\"",
     "prepare": "lefthook install"
@@ -51,7 +51,7 @@
     "ts-extras": "^1.2.0"
   },
   "devDependencies": {
-    "@adamhl8/configs": "^0.24.13",
+    "@adamhl8/configs": "^0.27.3",
     "@commitlint/cli": "^21.2.0",
     "@commitlint/config-conventional": "^21.2.0",
     "@types/node": "^26.1.0",
