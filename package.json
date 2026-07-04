@@ -46,7 +46,7 @@
     "ts-extras": "^1.2.0"
   },
   "devDependencies": {
-    "@adamhl8/configs": "^0.28.1",
+    "@adamhl8/configs": "^0.29.0",
     "@commitlint/cli": "^21.2.0",
     "@commitlint/config-conventional": "^21.2.0",
     "@types/node": "^26.1.0",
@@ -56,7 +56,7 @@
     "oxlint": "^1.72.0",
     "oxlint-tsgolint": "^0.24.0",
     "release-it": "^20.2.1",
-    "type-fest": "^5.7.0",
+    "type-fest": "^5.8.0",
     "typescript": "^6.0.3"
   }
 }
