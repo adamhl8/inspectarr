@@ -121,9 +121,9 @@ jobs:
 
       - name: Update homebrew tap
         env:
-          INSPECTARR_PACKAGE_TOKEN: ${{ secrets.INSPECTARR_PACKAGE_TOKEN }}
+          CI_TOKEN: ${{ secrets.CI_TOKEN }}
         run: |
-          REPO="https://adamhl8:${INSPECTARR_PACKAGE_TOKEN}@github.com/adamhl8/homebrew-inspectarr.git"
+          REPO="https://adamhl8:${CI_TOKEN}@github.com/adamhl8/homebrew-inspectarr.git"
           CLONE_DIR=$(mktemp -d)
           git clone --depth 1 "${REPO}" "${CLONE_DIR}"
           cp ./package_templates/homebrew/inspectarr.rb "${CLONE_DIR}/Formula/inspectarr.rb"
@@ -134,9 +134,9 @@ jobs:
 
       - name: Update scoop bucket
         env:
-          INSPECTARR_PACKAGE_TOKEN: ${{ secrets.INSPECTARR_PACKAGE_TOKEN }}
+          CI_TOKEN: ${{ secrets.CI_TOKEN }}
         run: |
-          REPO="https://adamhl8:${INSPECTARR_PACKAGE_TOKEN}@github.com/adamhl8/scoop-inspectarr.git"
+          REPO="https://adamhl8:${CI_TOKEN}@github.com/adamhl8/scoop-inspectarr.git"
           CLONE_DIR=$(mktemp -d)
           git clone --depth 1 "${REPO}" "${CLONE_DIR}"
           cp ./package_templates/scoop/inspectarr.json "${CLONE_DIR}/inspectarr.json"
