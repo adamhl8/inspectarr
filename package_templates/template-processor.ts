@@ -1,5 +1,3 @@
-import { createHash } from "node:crypto"
-import { glob, readFile, writeFile } from "node:fs/promises"
 import path from "node:path"
 import process from "node:process"
 
@@ -9,18 +7,17 @@ if (!version) {
   process.exit(1)
 }
 
-const templateDir = import.meta.dirname
-const relativeTemplatePaths = await Array.fromAsync(glob("**/*.template", { cwd: templateDir }))
-const templatePaths = relativeTemplatePaths.map((templatePath) => path.resolve(templateDir, templatePath))
-const relativeArtifactPaths = await Array.fromAsync(glob("artifacts/**/inspectarr-*"))
-const artifactPaths = relativeArtifactPaths.map((artifactPath) => path.resolve(artifactPath))
+const templateDir = import.meta.dir
+const templatePaths = await Array.fromAsync(new Bun.Glob("**/*.template").scan({ cwd: templateDir, absolute: true }))
+const artifactPaths = await Array.fromAsync(new Bun.Glob("artifacts/**/inspectarr-*").scan({ absolute: true }))
 
 const replaceVar = (content: string, varName: string, value: string) => content.replaceAll(`\${{${varName}}}`, value)
 
-const getArtifactHash = async (artifactPath: string) =>
-  createHash("sha256")
-    .update(await readFile(artifactPath))
-    .digest("hex")
+const getArtifactHash = async (artifactPath: string) => {
+  const hasher = new Bun.CryptoHasher("sha256")
+  const artifact = await Bun.file(artifactPath).arrayBuffer()
+  return hasher.update(artifact).digest("hex")
+}
 
 const artifactHashes = await Promise.all(
   artifactPaths.map(
@@ -30,13 +27,13 @@ const artifactHashes = await Promise.all(
 
 await Promise.all(
   templatePaths.map(async (templatePath) => {
-    let templateContent = await readFile(templatePath, "utf8")
+    let templateContent = await Bun.file(templatePath).text()
     templateContent = replaceVar(templateContent, "version", version)
     for (const [artifactName, artifactHash] of artifactHashes)
       templateContent = replaceVar(templateContent, `${artifactName}-hash`, artifactHash)
 
     const processedTemplatePath = path.resolve(templateDir, templatePath.replace(".template", ""))
-    await writeFile(processedTemplatePath, templateContent)
+    await Bun.write(processedTemplatePath, templateContent)
     console.info(`'${templatePath}' -> '${processedTemplatePath}'`)
   }),
 )

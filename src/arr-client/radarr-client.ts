@@ -1,10 +1,10 @@
 import type { Result } from "ts-explicit-errors"
 import { err, isErr } from "ts-explicit-errors"
 
-import { ArrClient } from "#/arr-client/arr-client.ts"
-import type { RadarrMediaData } from "#/cli/radarr.ts"
-import type { paths } from "#/generated/radarr-schema.d.ts"
-import { formatSize, getRawResolution } from "#/utils.ts"
+import { ArrClient } from "#arr-client/arr-client.ts"
+import type { RadarrMediaData } from "#cli/radarr.ts"
+import type { paths } from "#generated/radarr-schema.d.ts"
+import { formatSize, getRawResolution } from "#utils.ts"
 
 type RadarrAllMedia = paths["/api/v3/movie"]["get"]["responses"]["200"]["content"]["application/json"][number]
 type RadarrQualityProfiles = paths["/api/v3/qualityprofile"]["get"]["responses"]["200"]["content"]["application/json"]

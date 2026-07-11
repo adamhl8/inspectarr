@@ -6,7 +6,7 @@ import { attempt, err, isErr } from "ts-explicit-errors"
 import { objectEntries, objectFromEntries } from "ts-extras"
 import type { JsonPrimitive } from "type-fest"
 
-import type { AllMediaDataKeys, JsonifiableMediaData, MediaData } from "#/cli/types.ts"
+import type { AllMediaDataKeys, JsonifiableMediaData, MediaData } from "#cli/types.ts"
 
 export abstract class ArrClient {
   public name: string

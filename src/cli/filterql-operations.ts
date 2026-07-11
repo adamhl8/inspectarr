@@ -1,7 +1,7 @@
 import { omit } from "es-toolkit"
 import type { OperationMap } from "filterql"
 
-import { stringifyValue } from "#/utils.ts"
+import { stringifyValue } from "#utils.ts"
 
 export const customOperations: OperationMap = {
   SORT: (data, args, { resolveField }) => {

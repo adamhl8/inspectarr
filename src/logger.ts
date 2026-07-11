@@ -5,11 +5,11 @@ import type { Schema } from "filterql"
 import type { TablemarkOptions } from "tablemark"
 import { tablemark } from "tablemark"
 
-import { hiddenFieldKeys, internalFieldKeys, mergedFieldKeys } from "#/cli/base-fields.ts"
-import type { OutputOptions } from "#/cli/base-options.ts"
-import { sonarrHiddenFieldKeys } from "#/cli/sonarr.ts"
-import type { AllMediaDataKeys, JsonifiableMediaData } from "#/cli/types.ts"
-import { formatQualifiedValue, stringifyValue } from "#/utils.ts"
+import { hiddenFieldKeys, internalFieldKeys, mergedFieldKeys } from "#cli/base-fields.ts"
+import type { OutputOptions } from "#cli/base-options.ts"
+import { sonarrHiddenFieldKeys } from "#cli/sonarr.ts"
+import type { AllMediaDataKeys, JsonifiableMediaData } from "#cli/types.ts"
+import { formatQualifiedValue, stringifyValue } from "#utils.ts"
 
 const pipeRegex = /\|/gv
 

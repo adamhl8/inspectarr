@@ -1,6 +1,8 @@
 name: Release
+
 on:
   workflow_dispatch: {}
+
 jobs:
   release:
     permissions:
@@ -30,20 +32,15 @@ jobs:
     strategy:
       matrix:
         include:
-          - target: x86_64-pc-windows-msvc
-            binary: inspectarr.exe
+          - target: bun-windows-x64
             artifact: inspectarr-windows-x64.exe
-          - target: x86_64-apple-darwin
-            binary: inspectarr
+          - target: bun-darwin-x64
             artifact: inspectarr-macos-x64
-          - target: aarch64-apple-darwin
-            binary: inspectarr
+          - target: bun-darwin-arm64
             artifact: inspectarr-macos-arm64
-          - target: x86_64-unknown-linux-gnu
-            binary: inspectarr
+          - target: bun-linux-x64-musl
             artifact: inspectarr-linux-x64
-          - target: aarch64-unknown-linux-gnu
-            binary: inspectarr
+          - target: bun-linux-arm64-musl
             artifact: inspectarr-linux-arm64
 
     steps:
@@ -52,24 +49,17 @@ jobs:
         with:
           ref: ${{ needs.tag.outputs.tag }}
 
-      - name: Set up nub
-        uses: nubjs/setup-nub@v0
-        with:
-          node-version: "26"
+      - name: Set up bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Install
-        run: nub i --ignore-scripts
-
-      - name: Set up Deno
-        uses: denoland/setup-deno@v2
-        with:
-          deno-version: latest
+        run: |
+          # TODO: remove once bun 1.4.0 is released
+          rm -f bun.lock #
+          bun install --ignore-scripts
 
       - name: Build binary
-        run: deno compile -A --node-modules-dir=manual --bundle --minify --target=${{ matrix.target }} -o inspectarr src/index.ts
-
-      - name: Rename binary
-        run: mv ${{ matrix.binary }} ${{ matrix.artifact }}
+        run: bun build --compile --production --minify --sourcemap --target=${{ matrix.target }} --outfile=${{ matrix.artifact }} src/index.ts
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7
@@ -91,13 +81,14 @@ jobs:
         with:
           ref: ${{ needs.tag.outputs.tag }}
 
-      - name: Set up nub
-        uses: nubjs/setup-nub@v0
-        with:
-          node-version: "26"
+      - name: Set up bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Install
-        run: nub i --ignore-scripts
+        run: |
+          # TODO: remove once bun 1.4.0 is released
+          rm -f bun.lock #
+          bun install --ignore-scripts
 
       - name: Download all artifacts
         uses: actions/download-artifact@v8
@@ -112,7 +103,7 @@ jobs:
 
       - name: Process package templates
         run: |
-          nub ./package_templates/template-processor.ts "${TAG#v}"
+          bun ./package_templates/template-processor.ts "${TAG#v}"
 
       - name: Set up git
         run: |

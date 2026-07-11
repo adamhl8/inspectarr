@@ -4,9 +4,9 @@ import type { Schema } from "filterql"
 import { objectKeys } from "ts-extras"
 import type { SetOptional } from "type-fest"
 
-import { baseSchema } from "#/cli/base-fields.ts"
-import { getBaseCommandParser } from "#/cli/base-options.ts"
-import type { SchemaToType, ToMediaData } from "#/cli/types.ts"
+import { baseSchema } from "#cli/base-fields.ts"
+import { getBaseCommandParser } from "#cli/base-options.ts"
+import type { SchemaToType, ToMediaData } from "#cli/types.ts"
 
 const sonarrOptions = object("Sonarr options", {
   bySeason: option("--by-season", {

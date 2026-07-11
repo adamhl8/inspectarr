@@ -3,9 +3,9 @@ import process from "node:process"
 import type { Result } from "ts-explicit-errors"
 import { attempt, err, isErr } from "ts-explicit-errors"
 
-import { getServiceInfo } from "#/cli/cli.ts"
-import type { JsonifiableMediaData } from "#/cli/types.ts"
-import { formatSize } from "#/utils.ts"
+import { getServiceInfo } from "#cli/cli.ts"
+import type { JsonifiableMediaData } from "#cli/types.ts"
+import { formatSize } from "#utils.ts"
 
 const getStats = (mediaData: JsonifiableMediaData) => {
   const totalMedia = mediaData.length

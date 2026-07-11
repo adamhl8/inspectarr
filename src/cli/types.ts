@@ -1,8 +1,8 @@
 import type { Schema } from "filterql"
 import type { JsonPrimitive, SimplifyDeep } from "type-fest"
 
-import type { RadarrMediaData } from "#/cli/radarr.ts"
-import type { SonarrMediaData } from "#/cli/sonarr.ts"
+import type { RadarrMediaData } from "#cli/radarr.ts"
+import type { SonarrMediaData } from "#cli/sonarr.ts"
 
 /**
  * Converts a FilterQL schema type to a type with the same keys mapped to their `type` strings.
