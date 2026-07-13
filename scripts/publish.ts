@@ -3,7 +3,7 @@ import os from "node:os"
 import path from "node:path"
 import process from "node:process"
 
-import { $ } from "bun"
+import bun, { $, CryptoHasher, Glob } from "bun"
 
 interface Package {
   repo: string
@@ -48,14 +48,14 @@ const parseArgs = () => {
 }
 
 const getBinaryHash = async (binaryPath: string) => {
-  const hasher = new Bun.CryptoHasher("sha256")
-  hasher.update(await Bun.file(binaryPath).arrayBuffer())
+  const hasher = new CryptoHasher("sha256")
+  hasher.update(await bun.file(binaryPath).arrayBuffer())
   return hasher.digest("hex")
 }
 
 /** The `${{...}}` placeholders a template can use: the version, plus a `<binary>-hash` per built binary. */
 const getTemplateVars = async (tag: string) => {
-  const binaryPaths = await Array.fromAsync(new Bun.Glob(BINARIES_GLOB).scan({ absolute: true }))
+  const binaryPaths = await Array.fromAsync(new Glob(BINARIES_GLOB).scan({ absolute: true }))
   const binaryHashes = await Promise.all(
     binaryPaths.map(
       async (binaryPath) => [`${path.basename(binaryPath)}-hash`, await getBinaryHash(binaryPath)] as const,
@@ -73,7 +73,7 @@ const getGitIdentity = async (): Promise<GitIdentity> => ({
 })
 
 const renderTemplate = async (template: string, templateVars: Map<string, string>) => {
-  let content = await Bun.file(path.resolve(TEMPLATES_DIR, template)).text()
+  let content = await bun.file(path.resolve(TEMPLATES_DIR, template)).text()
   for (const [varName, value] of templateVars) content = content.replaceAll(`\${{${varName}}}`, value)
   return content
 }
@@ -86,7 +86,7 @@ const publishPackage = async (pkg: Package, context: PublishContext) => {
   const cloneDir = await fs.mkdtemp(path.join(os.tmpdir(), `${pkg.repo}-`))
   await $`git clone --depth 1 ${remote} ${cloneDir}`.quiet()
 
-  await Bun.write(path.join(cloneDir, pkg.file), content)
+  await bun.write(path.join(cloneDir, pkg.file), content)
   await $`git -C ${cloneDir} add -A`
   await $`git -C ${cloneDir} -c user.name=${gitIdentity.name} -c user.email=${gitIdentity.email} commit -m ${tag}`
   await $`git -C ${cloneDir} push ${remote}`.quiet()
