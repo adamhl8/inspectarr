@@ -5,3 +5,4 @@ dist/
 # The above patterns are managed by @adamhl8/configs. Anything manually added above this line will be replaced.
 
 .env
+bin/
