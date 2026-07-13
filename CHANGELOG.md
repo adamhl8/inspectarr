@@ -1,3 +1,11 @@
+## [1.3.4](https://github.com/adamhl8/inspectarr/compare/v1.3.3..v1.3.4) - 2026-07-13
+
+### ⚙️ Miscellaneous Tasks
+
+- _(deps)_ update dependencies ([860c3e2](https://github.com/adamhl8/inspectarr/commit/860c3e242216cd4b0541d91bf8105d73a2a78ea4) by @adamhl8)
+
+- cleanup release process ([b9ebb1c](https://github.com/adamhl8/inspectarr/commit/b9ebb1c566e24ef3145e412cf351bf6629842611) by @adamhl8)
+
 ## [1.3.3](https://github.com/adamhl8/inspectarr/compare/v1.3.2..v1.3.3) - 2026-07-11
 
 ### ⚙️ Miscellaneous Tasks
