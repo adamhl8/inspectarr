@@ -20,6 +20,42 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["ApiInfoResource"]
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  "/login/sso": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: {
+          returnUrl?: string
+          rememberMe?: boolean
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** Found */
+        302: {
+          headers: Record<string, unknown>
           content?: never
         }
       }
@@ -70,13 +106,91 @@ export interface paths {
           "multipart/form-data": {
             username?: string
             password?: string
-            rememberMe?: string
+            rememberMe?: boolean
           }
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Found */
+        302: {
+          headers: Record<string, unknown>
+          content?: never
+        }
+        /** Unauthorized */
+        401: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["ProblemDetails"]
+          }
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  "/reset-password/request": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** Found */
+        302: {
+          headers: Record<string, unknown>
+          content?: never
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  "/reset-password": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: {
+        content: {
+          "multipart/form-data": {
+            token?: string
+            username?: string
+            password?: string
+            passwordConfirmation?: string
+          }
+        }
+      }
+      responses: {
+        /** Found */
+        302: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -104,8 +218,8 @@ export interface paths {
       }
       requestBody?: never
       responses: {
-        /** OK */
-        200: {
+        /** Found */
+        302: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -199,6 +313,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["AutoTaggingResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -591,6 +710,11 @@ export interface paths {
             "application/json": components["schemas"]["EpisodeResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put?: never
@@ -718,6 +842,11 @@ export interface paths {
             "application/json": components["schemas"]["CommandResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put?: never
@@ -825,6 +954,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["CustomFilterResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -958,6 +1092,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["CustomFormatResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1165,6 +1304,11 @@ export interface paths {
             "application/json": components["schemas"]["EpisodeResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put?: never
@@ -1255,6 +1399,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["DelayProfileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1460,6 +1609,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["DownloadClientResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1765,6 +1919,11 @@ export interface paths {
             "application/json": components["schemas"]["DownloadClientConfigResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put: {
@@ -1865,6 +2024,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["EpisodeResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1999,6 +2163,11 @@ export interface paths {
             "application/json": components["schemas"]["EpisodeFileResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put: {
@@ -2059,6 +2228,7 @@ export interface paths {
       cookie?: never
     }
     get?: never
+    /** @deprecated */
     put: {
       parameters: {
         query?: never
@@ -2490,6 +2660,11 @@ export interface paths {
             "application/json": components["schemas"]["HostConfigResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put: {
@@ -2607,6 +2782,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["ImportListResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -2912,6 +3092,11 @@ export interface paths {
             "application/json": components["schemas"]["ImportListConfigResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put: {
@@ -3066,6 +3251,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["ImportListExclusionResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3236,6 +3426,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["IndexerResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3541,6 +3736,11 @@ export interface paths {
             "application/json": components["schemas"]["IndexerConfigResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put: {
@@ -3671,6 +3871,11 @@ export interface paths {
             "application/json": components["schemas"]["LanguageResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put?: never
@@ -3761,6 +3966,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["LanguageProfileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3938,6 +4148,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["LocalizationResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4204,6 +4419,11 @@ export interface paths {
             "application/json": components["schemas"]["MediaManagementConfigResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put: {
@@ -4319,6 +4539,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["MetadataResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4576,6 +4801,11 @@ export interface paths {
             "application/json": components["schemas"]["EpisodeResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put?: never
@@ -4645,6 +4875,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["NamingConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4808,6 +5043,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["NotificationResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5058,6 +5298,13 @@ export interface paths {
             "application/json": components["schemas"]["PingResource"]
           }
         }
+        /** Internal Server Error */
+        500: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["PingResource"]
+          }
+        }
       }
     }
     put?: never
@@ -5075,6 +5322,13 @@ export interface paths {
       responses: {
         /** OK */
         200: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["PingResource"]
+          }
+        }
+        /** Internal Server Error */
+        500: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["PingResource"]
@@ -5109,6 +5363,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["QualityDefinitionResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5334,6 +5593,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["QualityProfileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5828,6 +6092,11 @@ export interface paths {
             "application/json": components["schemas"]["ReleaseProfileResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put: {
@@ -6002,6 +6271,11 @@ export interface paths {
             "application/json": components["schemas"]["RemotePathMappingResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put: {
@@ -6068,6 +6342,41 @@ export interface paths {
         query?: {
           seriesId?: number
           seasonNumber?: number
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** OK */
+        200: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["RenameEpisodeResource"][]
+          }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  "/api/v3/rename/bulk": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: {
+          seriesIds?: number[]
         }
         header?: never
         path?: never
@@ -6172,6 +6481,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["RootFolderResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -6513,6 +6827,7 @@ export interface paths {
       parameters: {
         query?: {
           term?: string
+          language?: number
         }
         header?: never
         path?: never
@@ -6528,6 +6843,37 @@ export interface paths {
             "application/json": components["schemas"]["SeriesResource"][]
             "text/json": components["schemas"]["SeriesResource"][]
           }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  "/loggedout": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** OK */
+        200: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -6876,6 +7222,11 @@ export interface paths {
             "application/json": components["schemas"]["TagResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put: {
@@ -6986,6 +7337,11 @@ export interface paths {
             "application/json": components["schemas"]["TagDetailsResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put?: never
@@ -7056,6 +7412,11 @@ export interface paths {
             "application/json": components["schemas"]["TaskResource"]
           }
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put?: never
@@ -7090,6 +7451,11 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["UiConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -7278,12 +7644,16 @@ export interface components {
       sceneOrigin?: string | null
       comment?: string | null
     }
+    ApiInfoResource: {
+      current?: string | null
+      deprecated?: string[] | null
+    }
     /** @enum {string} */
     ApplyTags: "add" | "remove" | "replace"
     /** @enum {string} */
-    AuthenticationRequiredType: "enabled" | "disabledForLocalAddresses"
+    AuthenticationRequiredType: "enabled" | "disabledForLocalAddresses" | "disabledForLocalhost"
     /** @enum {string} */
-    AuthenticationType: "none" | "basic" | "forms" | "external"
+    AuthenticationType: "none" | "basic" | "forms" | "external" | "oidc"
     AutoTaggingResource: {
       /** Format: int32 */
       id?: number
@@ -7395,7 +7765,7 @@ export interface components {
       lastExecutionTime?: string | null
     }
     /** @enum {string} */
-    CommandResult: "unknown" | "successful" | "unsuccessful"
+    CommandResult: "unknown" | "successful" | "unsuccessful" | "indeterminate"
     /** @enum {string} */
     CommandStatus: "queued" | "started" | "completed" | "failed" | "aborted" | "cancelled" | "orphaned"
     /** @enum {string} */
@@ -7577,10 +7947,6 @@ export interface components {
       /** Format: int32 */
       sceneSeasonNumber?: number | null
       unverifiedSceneNumbering?: boolean
-      /** Format: date-time */
-      endTime?: string | null
-      /** Format: date-time */
-      grabDate?: string | null
       series?: components["schemas"]["SeriesResource"]
       images?: components["schemas"]["MediaCover"][] | null
     }
@@ -7631,7 +7997,7 @@ export interface components {
       source?: string | null
       type?: components["schemas"]["HealthCheckResult"]
       message?: string | null
-      wikiUrl?: components["schemas"]["HttpUri"]
+      wikiUrl?: string | null
     }
     HistoryResource: {
       /** Format: int32 */
@@ -7678,10 +8044,16 @@ export interface components {
       launchBrowser?: boolean
       authenticationMethod?: components["schemas"]["AuthenticationType"]
       authenticationRequired?: components["schemas"]["AuthenticationRequiredType"]
+      allowedHosts?: string | null
       analyticsEnabled?: boolean
       username?: string | null
       password?: string | null
       passwordConfirmation?: string | null
+      oidcAuthority?: string | null
+      oidcClientId?: string | null
+      oidcClientSecret?: string | null
+      oidcUserIdentifier?: string | null
+      oidcScopes?: string | null
       logLevel?: string | null
       /** Format: int32 */
       logSizeLimit?: number
@@ -7689,8 +8061,10 @@ export interface components {
       branch?: string | null
       apiKey?: string | null
       sslCertPath?: string | null
+      sslKeyPath?: string | null
       sslCertPassword?: string | null
       urlBase?: string | null
+      trustedNetworks?: string | null
       instanceName?: string | null
       applicationUrl?: string | null
       updateAutomatically?: boolean
@@ -7713,16 +8087,6 @@ export interface components {
       backupRetention?: number
       trustCgnatIpAddresses?: boolean
     }
-    HttpUri: {
-      readonly fullUri?: string | null
-      readonly scheme?: string | null
-      readonly host?: string | null
-      /** Format: int32 */
-      readonly port?: number | null
-      readonly path?: string | null
-      readonly query?: string | null
-      readonly fragment?: string | null
-    }
     ImportListBulkResource: {
       ids?: number[] | null
       tags?: number[] | null
@@ -7731,6 +8095,7 @@ export interface components {
       rootFolderPath?: string | null
       /** Format: int32 */
       qualityProfileId?: number | null
+      tagExisting?: components["schemas"]["TagExistingType"]
     }
     ImportListConfigResource: {
       /** Format: int32 */
@@ -7780,12 +8145,14 @@ export interface components {
       /** Format: int32 */
       qualityProfileId?: number
       seriesType?: components["schemas"]["SeriesTypes"]
+      language?: components["schemas"]["Language"]
       seasonFolder?: boolean
       listType?: components["schemas"]["ImportListType"]
       /** Format: int32 */
       listOrder?: number
       /** Format: date-span */
       minRefreshInterval?: string
+      tagExisting?: components["schemas"]["TagExistingType"]
     }
     /** @enum {string} */
     ImportListType: "program" | "plex" | "trakt" | "simkl" | "other" | "advanced"
@@ -7802,6 +8169,8 @@ export interface components {
       enableInteractiveSearch?: boolean | null
       /** Format: int32 */
       priority?: number | null
+      /** Format: int32 */
+      seasonSearchMaximumSingleEpisodeAge?: number | null
     }
     IndexerConfigResource: {
       /** Format: int32 */
@@ -8012,6 +8381,7 @@ export interface components {
       chmodFolder?: string | null
       chownGroup?: string | null
       episodeTitleRequired?: components["schemas"]["EpisodeTitleRequiredType"]
+      skipFreeSpaceCheckWhenGrabbing?: boolean
       skipFreeSpaceCheckWhenImporting?: boolean
       /** Format: int32 */
       minimumFreeSpaceWhenImporting?: number
@@ -8021,6 +8391,10 @@ export interface components {
       importExtraFiles?: boolean
       extraFileExtensions?: string | null
       enableMediaInfo?: boolean
+      userRejectedExtensions?: string | null
+      seasonPackUpgrade?: components["schemas"]["SeasonPackUpgradeType"]
+      /** Format: double */
+      seasonPackUpgradeThreshold?: number
     }
     MetadataResource: {
       /** Format: int32 */
@@ -8122,7 +8496,7 @@ export interface components {
       /** Format: int32 */
       id?: number
       title?: string | null
-      parsedEpisodeInfo?: components["schemas"]["ParsedEpisodeInfo"]
+      parsedEpisodeInfo?: components["schemas"]["ParsedEpisodeInfoResource"]
       series?: components["schemas"]["SeriesResource"]
       episodes?: components["schemas"]["EpisodeResource"][] | null
       languages?: components["schemas"]["Language"][] | null
@@ -8130,11 +8504,12 @@ export interface components {
       /** Format: int32 */
       customFormatScore?: number
     }
-    ParsedEpisodeInfo: {
+    ParsedEpisodeInfoResource: {
       releaseTitle?: string | null
       seriesTitle?: string | null
       seriesTitleInfo?: components["schemas"]["SeriesTitleInfo"]
       quality?: components["schemas"]["QualityModel"]
+      seasonNumbers?: number[] | null
       /** Format: int32 */
       seasonNumber?: number
       episodeNumbers?: number[] | null
@@ -8156,10 +8531,10 @@ export interface components {
       releaseTokens?: string | null
       /** Format: int32 */
       dailyPart?: number | null
-      readonly isDaily?: boolean
-      readonly isAbsoluteNumbering?: boolean
-      readonly isPossibleSpecialEpisode?: boolean
-      readonly isPossibleSceneSeasonSpecial?: boolean
+      isDaily?: boolean
+      isAbsoluteNumbering?: boolean
+      isPossibleSpecialEpisode?: boolean
+      isPossibleSceneSeasonSpecial?: boolean
       releaseType?: components["schemas"]["ReleaseType"]
     }
     PingResource: {
@@ -8167,6 +8542,14 @@ export interface components {
     }
     /** @enum {string} */
     PrivacyLevel: "normal" | "password" | "apiKey" | "userName"
+    ProblemDetails: {
+      type?: string | null
+      title?: string | null
+      /** Format: int32 */
+      status?: number | null
+      detail?: string | null
+      instance?: string | null
+    } & Record<string, unknown>
     ProfileFormatItemResource: {
       /** Format: int32 */
       id?: number
@@ -8225,6 +8608,12 @@ export interface components {
       quality?: components["schemas"]["Quality"]
       items?: components["schemas"]["QualityProfileQualityItemResource"][] | null
       allowed?: boolean
+      /** Format: double */
+      minSize?: number | null
+      /** Format: double */
+      maxSize?: number | null
+      /** Format: double */
+      preferredSize?: number | null
     }
     QualityProfileResource: {
       /** Format: int32 */
@@ -8358,9 +8747,14 @@ export interface components {
       enabled?: boolean
       required?: unknown
       ignored?: unknown
+      airDateRestriction?: boolean
+      /** Format: int32 */
+      airDateGracePeriod?: number
+      allowSeasonPackWithoutAllEpisodesAired?: boolean
       /** Format: int32 */
       indexerId?: number
       tags?: number[] | null
+      excludedTags?: number[] | null
     }
     ReleaseResource: {
       /** Format: int32 */
@@ -8388,6 +8782,7 @@ export interface components {
       sceneSource?: boolean
       /** Format: int32 */
       seasonNumber?: number
+      seasonNumbers?: number[] | null
       languages?: components["schemas"]["Language"][] | null
       /** Format: int32 */
       languageWeight?: number
@@ -8485,10 +8880,14 @@ export interface components {
       accessible?: boolean
       /** Format: int64 */
       freeSpace?: number | null
+      /** Format: int64 */
+      totalSpace?: number | null
       unmappedFolders?: components["schemas"]["UnmappedFolder"][] | null
     }
     /** @enum {string} */
     RuntimeMode: "console" | "service" | "tray"
+    /** @enum {string} */
+    SeasonPackUpgradeType: "all" | "threshold" | "any"
     SeasonPassResource: {
       series?: components["schemas"]["SeasonPassSeriesResource"][] | null
       monitoringOptions?: components["schemas"]["MonitoringOptions"]
@@ -8503,6 +8902,7 @@ export interface components {
       /** Format: int32 */
       seasonNumber?: number
       monitored?: boolean
+      title?: string | null
       statistics?: components["schemas"]["SeasonStatisticsResource"]
       images?: components["schemas"]["MediaCover"][] | null
     }
@@ -8523,6 +8923,13 @@ export interface components {
       /** Format: double */
       readonly percentOfEpisodes?: number
     }
+    SeasonTypeResource: {
+      name?: string | null
+      type?: string | null
+      seasonNumbers?: number[] | null
+      /** Format: int32 */
+      episodeCount?: number
+    }
     SelectOption: {
       /** Format: int32 */
       value?: number
@@ -8537,6 +8944,7 @@ export interface components {
       monitorNewItems?: components["schemas"]["NewItemMonitorTypes"]
       /** Format: int32 */
       qualityProfileId?: number | null
+      language?: components["schemas"]["Language"]
       seriesType?: components["schemas"]["SeriesTypes"]
       seasonFolder?: boolean | null
       rootFolderPath?: string | null
@@ -8545,6 +8953,10 @@ export interface components {
       moveFiles?: boolean
       deleteFiles?: boolean
       addImportListExclusion?: boolean
+    }
+    SeriesFolderResource: {
+      language?: components["schemas"]["Language"]
+      folder?: string | null
     }
     SeriesResource: {
       /** Format: int32 */
@@ -8563,12 +8975,17 @@ export interface components {
       network?: string | null
       airTime?: string | null
       images?: components["schemas"]["MediaCover"][] | null
+      language?: components["schemas"]["Language"]
       originalLanguage?: components["schemas"]["Language"]
       remotePoster?: string | null
+      seasonType?: string | null
       seasons?: components["schemas"]["SeasonResource"][] | null
+      seasonTypes?: components["schemas"]["SeasonTypeResource"][] | null
+      translations?: components["schemas"]["SeriesTranslationResource"][] | null
       /** Format: int32 */
       year?: number
       path?: string | null
+      pendingPath?: string | null
       /** Format: int32 */
       qualityProfileId?: number
       seasonFolder?: boolean
@@ -8591,10 +9008,13 @@ export interface components {
       lastAired?: string | null
       seriesType?: components["schemas"]["SeriesTypes"]
       cleanTitle?: string | null
+      originalTitle?: string | null
+      cleanOriginalTitle?: string | null
       imdbId?: string | null
       titleSlug?: string | null
       rootFolderPath?: string | null
       folder?: string | null
+      folders?: components["schemas"]["SeriesFolderResource"][] | null
       certification?: string | null
       genres?: string[] | null
       tags?: number[] | null
@@ -8635,6 +9055,11 @@ export interface components {
       year?: number
       allTitles?: string[] | null
     }
+    SeriesTranslationResource: {
+      language?: components["schemas"]["Language"]
+      title?: string | null
+      overview?: string | null
+    }
     /** @enum {string} */
     SeriesTypes: "standard" | "daily" | "anime"
     /** @enum {string} */
@@ -8658,6 +9083,7 @@ export interface components {
       isOsx?: boolean
       isWindows?: boolean
       isDocker?: boolean
+      isContainerized?: boolean
       mode?: components["schemas"]["RuntimeMode"]
       branch?: string | null
       authentication?: components["schemas"]["AuthenticationType"]
@@ -8684,11 +9110,14 @@ export interface components {
       importListIds?: number[] | null
       notificationIds?: number[] | null
       restrictionIds?: number[] | null
+      excludedReleaseProfileIds?: number[] | null
       indexerIds?: number[] | null
       downloadClientIds?: number[] | null
       autoTagIds?: number[] | null
       seriesIds?: number[] | null
     }
+    /** @enum {string} */
+    TagExistingType: "none" | "add" | "sync"
     TagResource: {
       /** Format: int32 */
       id?: number
@@ -8735,6 +9164,7 @@ export interface components {
       shortDateFormat?: string | null
       longDateFormat?: string | null
       timeFormat?: string | null
+      timeZone?: string | null
       showRelativeDates?: boolean
       enableColorImpairedMode?: boolean
       theme?: string | null

@@ -30,6 +30,7 @@ const PACKAGES: Package[] = [
 
 const TEMPLATES_DIR = path.resolve(import.meta.dir, "../package_templates")
 const BINARIES_GLOB = "bin/inspectarr-*"
+const TAG_PREFIX_REGEX = /^v/v
 
 const parseArgs = () => {
   const tag = process.argv.at(2)
@@ -63,7 +64,7 @@ const getTemplateVars = async (tag: string) => {
   )
 
   // the tag is v-prefixed, the templates want a bare version
-  return new Map([["version", tag.replace(/^v/v, "")], ...binaryHashes])
+  return new Map([["version", tag.replace(TAG_PREFIX_REGEX, "")], ...binaryHashes])
 }
 
 /** A fresh clone doesn't inherit the identity the release workflow configures on this repo. */
@@ -87,8 +88,8 @@ const publishPackage = async (pkg: Package, context: PublishContext) => {
   await $`git clone --depth 1 ${remote} ${cloneDir}`.quiet()
 
   await bun.write(path.join(cloneDir, pkg.file), content)
-  await $`git -C ${cloneDir} add -A`
-  await $`git -C ${cloneDir} -c user.name=${gitIdentity.name} -c user.email=${gitIdentity.email} commit -m ${tag}`
+  await $`git -C ${cloneDir} add --all`
+  await $`git -C ${cloneDir} -c user.name=${gitIdentity.name} -c user.email=${gitIdentity.email} commit --message ${tag}`
   await $`git -C ${cloneDir} push ${remote}`.quiet()
 
   console.info(`${pkg.repo}: ${pkg.file} -> ${tag}`)

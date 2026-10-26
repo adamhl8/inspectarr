@@ -24,9 +24,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["AlternativeTitleResource"][]
             "application/json": components["schemas"]["AlternativeTitleResource"][]
-            "text/json": components["schemas"]["AlternativeTitleResource"][]
           }
         }
       }
@@ -61,10 +59,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["AlternativeTitleResource"]
             "application/json": components["schemas"]["AlternativeTitleResource"]
-            "text/json": components["schemas"]["AlternativeTitleResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -98,6 +99,39 @@ export interface paths {
           content: {
             "application/json": components["schemas"]["ApiInfoResource"]
           }
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  "/login/sso": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: {
+          returnUrl?: string
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** Found */
+        302: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -152,10 +186,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Found */
+        302: {
           headers: Record<string, unknown>
           content?: never
+        }
+        /** Unauthorized */
+        401: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["ProblemDetails"]
+          }
         }
       }
     }
@@ -181,8 +222,8 @@ export interface paths {
       }
       requestBody?: never
       responses: {
-        /** OK */
-        200: {
+        /** Found */
+        302: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -235,14 +276,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["AutoTaggingResource"]
             "application/json": components["schemas"]["AutoTaggingResource"]
-            "text/json": components["schemas"]["AutoTaggingResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -274,10 +318,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["AutoTaggingResource"]
             "application/json": components["schemas"]["AutoTaggingResource"]
-            "text/json": components["schemas"]["AutoTaggingResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -296,14 +343,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["AutoTaggingResource"]
             "application/json": components["schemas"]["AutoTaggingResource"]
-            "text/json": components["schemas"]["AutoTaggingResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -350,7 +400,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["AutoTaggingSpecificationSchema"][]
+          }
         }
       }
     }
@@ -382,9 +434,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["BackupResource"][]
             "application/json": components["schemas"]["BackupResource"][]
-            "text/json": components["schemas"]["BackupResource"][]
           }
         }
       }
@@ -421,6 +471,13 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
+          content: {
+            "application/json": unknown
+          }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
           content?: never
         }
       }
@@ -453,6 +510,13 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["BackupRestoreResource"]
+          }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
           content?: never
         }
       }
@@ -484,7 +548,16 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["BackupRestoreResource"]
+          }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["BackupRestoreErrorResource"]
+          }
         }
       }
     }
@@ -556,9 +629,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["BlocklistResource"][]
             "application/json": components["schemas"]["BlocklistResource"][]
-            "text/json": components["schemas"]["BlocklistResource"][]
           }
         }
       }
@@ -624,15 +695,15 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["BlocklistBulkResource"]
-          "text/json": components["schemas"]["BlocklistBulkResource"]
-          "application/*+json": components["schemas"]["BlocklistBulkResource"]
         }
       }
       responses: {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -701,8 +772,8 @@ export interface paths {
       }
       requestBody?: never
       responses: {
-        /** OK */
-        200: {
+        /** No Content */
+        204: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -759,7 +830,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["CollectionResource"][]
+          }
         }
       }
     }
@@ -792,10 +865,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["CollectionResource"]
             "application/json": components["schemas"]["CollectionResource"]
-            "text/json": components["schemas"]["CollectionResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -814,14 +890,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["CollectionResource"]
             "application/json": components["schemas"]["CollectionResource"]
-            "text/json": components["schemas"]["CollectionResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -852,9 +931,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["CommandResource"][]
             "application/json": components["schemas"]["CommandResource"][]
-            "text/json": components["schemas"]["CommandResource"][]
           }
         }
       }
@@ -873,12 +950,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["CommandResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -910,10 +992,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["CommandResource"]
             "application/json": components["schemas"]["CommandResource"]
-            "text/json": components["schemas"]["CommandResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -964,7 +1049,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["CreditResource"][]
+          }
         }
       }
     }
@@ -998,10 +1085,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["CreditResource"]
             "application/json": components["schemas"]["CreditResource"]
-            "text/json": components["schemas"]["CreditResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1033,9 +1123,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["CustomFilterResource"][]
             "application/json": components["schemas"]["CustomFilterResource"][]
-            "text/json": components["schemas"]["CustomFilterResource"][]
           }
         }
       }
@@ -1054,14 +1142,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["CustomFilterResource"]
             "application/json": components["schemas"]["CustomFilterResource"]
-            "text/json": components["schemas"]["CustomFilterResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1093,10 +1184,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["CustomFilterResource"]
             "application/json": components["schemas"]["CustomFilterResource"]
-            "text/json": components["schemas"]["CustomFilterResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1115,14 +1209,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["CustomFilterResource"]
             "application/json": components["schemas"]["CustomFilterResource"]
-            "text/json": components["schemas"]["CustomFilterResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1189,14 +1286,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["CustomFormatResource"]
             "application/json": components["schemas"]["CustomFormatResource"]
-            "text/json": components["schemas"]["CustomFormatResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1228,10 +1328,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["CustomFormatResource"]
             "application/json": components["schemas"]["CustomFormatResource"]
-            "text/json": components["schemas"]["CustomFormatResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1250,14 +1353,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["CustomFormatResource"]
             "application/json": components["schemas"]["CustomFormatResource"]
-            "text/json": components["schemas"]["CustomFormatResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1310,8 +1416,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "application/json": components["schemas"]["CustomFormatResource"]
+            "application/json": components["schemas"]["CustomFormatResource"][]
           }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1332,7 +1443,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -1360,7 +1473,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["CustomFormatSpecificationSchema"][]
+          }
         }
       }
     }
@@ -1431,9 +1546,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["DelayProfileResource"][]
             "application/json": components["schemas"]["DelayProfileResource"][]
-            "text/json": components["schemas"]["DelayProfileResource"][]
           }
         }
       }
@@ -1452,14 +1565,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["DelayProfileResource"]
             "application/json": components["schemas"]["DelayProfileResource"]
-            "text/json": components["schemas"]["DelayProfileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1491,10 +1607,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["DelayProfileResource"]
             "application/json": components["schemas"]["DelayProfileResource"]
-            "text/json": components["schemas"]["DelayProfileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1513,14 +1632,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["DelayProfileResource"]
             "application/json": components["schemas"]["DelayProfileResource"]
-            "text/json": components["schemas"]["DelayProfileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1573,9 +1695,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["DelayProfileResource"][]
             "application/json": components["schemas"]["DelayProfileResource"][]
-            "text/json": components["schemas"]["DelayProfileResource"][]
           }
         }
       }
@@ -1607,9 +1727,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["DiskSpaceResource"][]
             "application/json": components["schemas"]["DiskSpaceResource"][]
-            "text/json": components["schemas"]["DiskSpaceResource"][]
           }
         }
       }
@@ -1663,12 +1781,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["DownloadClientResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1700,10 +1823,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["DownloadClientResource"]
             "application/json": components["schemas"]["DownloadClientResource"]
-            "text/json": components["schemas"]["DownloadClientResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1724,12 +1850,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["DownloadClientResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1748,7 +1879,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -1782,8 +1915,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "application/json": components["schemas"]["DownloadClientResource"]
+            "application/json": components["schemas"]["DownloadClientResource"][]
           }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -1804,7 +1942,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -1870,8 +2010,8 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** No Content */
+        204: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -1904,7 +2044,16 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["ProviderTestAllResult"][]
+          }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["ProviderTestAllResult"][]
+          }
         }
       }
     }
@@ -1938,8 +2087,8 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Bad Request */
+        400: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -2006,10 +2155,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["DownloadClientConfigResource"]
             "application/json": components["schemas"]["DownloadClientConfigResource"]
-            "text/json": components["schemas"]["DownloadClientConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -2028,14 +2180,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["DownloadClientConfigResource"]
             "application/json": components["schemas"]["DownloadClientConfigResource"]
-            "text/json": components["schemas"]["DownloadClientConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -2068,9 +2223,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ExtraFileResource"][]
             "application/json": components["schemas"]["ExtraFileResource"][]
-            "text/json": components["schemas"]["ExtraFileResource"][]
           }
         }
       }
@@ -2106,7 +2259,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["FileSystemResult"]
+          }
         }
       }
     }
@@ -2139,7 +2294,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["FileSystemTypeResource"]
+          }
         }
       }
     }
@@ -2172,7 +2329,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["FileSystemMediaFileResource"][]
+          }
         }
       }
     }
@@ -2204,9 +2363,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["HealthResource"][]
             "application/json": components["schemas"]["HealthResource"][]
-            "text/json": components["schemas"]["HealthResource"][]
           }
         }
       }
@@ -2360,7 +2517,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -2390,9 +2549,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["HostConfigResource"]
             "application/json": components["schemas"]["HostConfigResource"]
-            "text/json": components["schemas"]["HostConfigResource"]
           }
         }
       }
@@ -2427,10 +2584,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["HostConfigResource"]
             "application/json": components["schemas"]["HostConfigResource"]
-            "text/json": components["schemas"]["HostConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -2446,19 +2606,20 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["HostConfigResource"]
-          "text/json": components["schemas"]["HostConfigResource"]
-          "application/*+json": components["schemas"]["HostConfigResource"]
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["HostConfigResource"]
             "application/json": components["schemas"]["HostConfigResource"]
-            "text/json": components["schemas"]["HostConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -2510,12 +2671,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["ImportListResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -2547,10 +2713,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ImportListResource"]
             "application/json": components["schemas"]["ImportListResource"]
-            "text/json": components["schemas"]["ImportListResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -2571,12 +2740,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["ImportListResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -2595,7 +2769,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -2629,8 +2805,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "application/json": components["schemas"]["ImportListResource"]
+            "application/json": components["schemas"]["ImportListResource"][]
           }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -2651,7 +2832,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -2717,8 +2900,8 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** No Content */
+        204: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -2751,7 +2934,16 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["ProviderTestAllResult"][]
+          }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["ProviderTestAllResult"][]
+          }
         }
       }
     }
@@ -2785,8 +2977,8 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Bad Request */
+        400: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -2853,10 +3045,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ImportListConfigResource"]
             "application/json": components["schemas"]["ImportListConfigResource"]
-            "text/json": components["schemas"]["ImportListConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -2875,14 +3070,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ImportListConfigResource"]
             "application/json": components["schemas"]["ImportListConfigResource"]
-            "text/json": components["schemas"]["ImportListConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -2933,14 +3131,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ImportListExclusionResource"]
             "application/json": components["schemas"]["ImportListExclusionResource"]
-            "text/json": components["schemas"]["ImportListExclusionResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3010,10 +3211,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ImportListExclusionResource"]
             "application/json": components["schemas"]["ImportListExclusionResource"]
-            "text/json": components["schemas"]["ImportListExclusionResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3032,14 +3236,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ImportListExclusionResource"]
             "application/json": components["schemas"]["ImportListExclusionResource"]
-            "text/json": components["schemas"]["ImportListExclusionResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3086,15 +3293,15 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["ImportListExclusionResource"][]
-          "text/json": components["schemas"]["ImportListExclusionResource"][]
-          "application/*+json": components["schemas"]["ImportListExclusionResource"][]
         }
       }
       responses: {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["ImportListExclusionResource"][]
+          }
         }
       }
     }
@@ -3108,15 +3315,15 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["ImportListExclusionBulkResource"]
-          "text/json": components["schemas"]["ImportListExclusionBulkResource"]
-          "application/*+json": components["schemas"]["ImportListExclusionBulkResource"]
         }
       }
       responses: {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -3148,7 +3355,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["ImportListMoviesResource"][]
+          }
         }
       }
     }
@@ -3163,15 +3372,15 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["MovieResource"][]
-          "text/json": components["schemas"]["MovieResource"][]
-          "application/*+json": components["schemas"]["MovieResource"][]
         }
       }
       responses: {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["MovieResource"][]
+          }
         }
       }
     }
@@ -3222,12 +3431,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["IndexerResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3259,10 +3473,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["IndexerResource"]
             "application/json": components["schemas"]["IndexerResource"]
-            "text/json": components["schemas"]["IndexerResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3283,12 +3500,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["IndexerResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3307,7 +3529,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -3341,8 +3565,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "application/json": components["schemas"]["IndexerResource"]
+            "application/json": components["schemas"]["IndexerResource"][]
           }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3363,7 +3592,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -3429,8 +3660,8 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** No Content */
+        204: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -3463,7 +3694,16 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["ProviderTestAllResult"][]
+          }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["ProviderTestAllResult"][]
+          }
         }
       }
     }
@@ -3497,8 +3737,8 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Bad Request */
+        400: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -3565,10 +3805,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["IndexerConfigResource"]
             "application/json": components["schemas"]["IndexerConfigResource"]
-            "text/json": components["schemas"]["IndexerConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3587,14 +3830,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["IndexerConfigResource"]
             "application/json": components["schemas"]["IndexerConfigResource"]
-            "text/json": components["schemas"]["IndexerConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3625,9 +3871,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["IndexerFlagResource"][]
             "application/json": components["schemas"]["IndexerFlagResource"][]
-            "text/json": components["schemas"]["IndexerFlagResource"][]
           }
         }
       }
@@ -3660,9 +3904,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["LanguageResource"][]
             "application/json": components["schemas"]["LanguageResource"][]
-            "text/json": components["schemas"]["LanguageResource"][]
           }
         }
       }
@@ -3697,10 +3939,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["LanguageResource"]
             "application/json": components["schemas"]["LanguageResource"]
-            "text/json": components["schemas"]["LanguageResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -3731,11 +3976,7 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content: {
-            "text/plain": string
-            "application/json": string
-            "text/json": string
-          }
+          content?: never
         }
       }
     }
@@ -3839,9 +4080,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["LogFileResource"][]
             "application/json": components["schemas"]["LogFileResource"][]
-            "text/json": components["schemas"]["LogFileResource"][]
           }
         }
       }
@@ -3874,6 +4113,13 @@ export interface paths {
       responses: {
         /** OK */
         200: {
+          headers: Record<string, unknown>
+          content: {
+            "text/plain": string
+          }
+        }
+        /** Not Found */
+        404: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -3934,6 +4180,13 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["ManualImportReprocessResource"][]
+          }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
           content?: never
         }
       }
@@ -3963,8 +4216,8 @@ export interface paths {
       }
       requestBody?: never
       responses: {
-        /** OK */
-        200: {
+        /** Not Found */
+        404: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -4033,10 +4286,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["MediaManagementConfigResource"]
             "application/json": components["schemas"]["MediaManagementConfigResource"]
-            "text/json": components["schemas"]["MediaManagementConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4055,14 +4311,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["MediaManagementConfigResource"]
             "application/json": components["schemas"]["MediaManagementConfigResource"]
-            "text/json": components["schemas"]["MediaManagementConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4114,12 +4373,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["MetadataResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4151,10 +4415,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["MetadataResource"]
             "application/json": components["schemas"]["MetadataResource"]
-            "text/json": components["schemas"]["MetadataResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4175,12 +4442,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["MetadataResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4199,7 +4471,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -4265,8 +4539,8 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** No Content */
+        204: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -4299,7 +4573,16 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["ProviderTestAllResult"][]
+          }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["ProviderTestAllResult"][]
+          }
         }
       }
     }
@@ -4333,8 +4616,8 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Bad Request */
+        400: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -4401,10 +4684,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["MetadataConfigResource"]
             "application/json": components["schemas"]["MetadataConfigResource"]
-            "text/json": components["schemas"]["MetadataConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4423,14 +4709,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["MetadataConfigResource"]
             "application/json": components["schemas"]["MetadataConfigResource"]
-            "text/json": components["schemas"]["MetadataConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4504,9 +4793,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["MovieResource"][]
             "application/json": components["schemas"]["MovieResource"][]
-            "text/json": components["schemas"]["MovieResource"][]
           }
         }
       }
@@ -4525,12 +4812,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["MovieResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4562,10 +4854,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["MovieResource"]
             "application/json": components["schemas"]["MovieResource"]
-            "text/json": components["schemas"]["MovieResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4586,12 +4881,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["MovieResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4640,13 +4940,18 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["MovieEditorResource"]
-          "text/json": components["schemas"]["MovieEditorResource"]
-          "application/*+json": components["schemas"]["MovieEditorResource"]
         }
       }
       responses: {
         /** OK */
         200: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["MovieResource"][]
+          }
+        }
+        /** Bad Request */
+        400: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -4663,15 +4968,15 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["MovieEditorResource"]
-          "text/json": components["schemas"]["MovieEditorResource"]
-          "application/*+json": components["schemas"]["MovieEditorResource"]
         }
       }
       responses: {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -4706,6 +5011,11 @@ export interface paths {
             "application/json": components["schemas"]["MovieFileResource"][]
           }
         }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put?: never
@@ -4738,10 +5048,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["MovieFileResource"]
             "application/json": components["schemas"]["MovieFileResource"]
-            "text/json": components["schemas"]["MovieFileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4760,14 +5073,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["MovieFileResource"]
             "application/json": components["schemas"]["MovieFileResource"]
-            "text/json": components["schemas"]["MovieFileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -4785,6 +5101,11 @@ export interface paths {
       responses: {
         /** OK */
         200: {
+          headers: Record<string, unknown>
+          content?: never
+        }
+        /** Not Found */
+        404: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -4820,7 +5141,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["MovieFileResource"][]
+          }
         }
       }
     }
@@ -4855,7 +5178,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["MovieFileResource"][]
+          }
         }
       }
     }
@@ -4875,6 +5200,13 @@ export interface paths {
       responses: {
         /** OK */
         200: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": unknown
+          }
+        }
+        /** Bad Request */
+        400: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -4906,7 +5238,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["MovieFolderResource"]
+          }
         }
       }
     }
@@ -5080,9 +5414,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["NamingConfigResource"]
             "application/json": components["schemas"]["NamingConfigResource"]
-            "text/json": components["schemas"]["NamingConfigResource"]
           }
         }
       }
@@ -5117,10 +5449,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["NamingConfigResource"]
             "application/json": components["schemas"]["NamingConfigResource"]
-            "text/json": components["schemas"]["NamingConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5136,19 +5471,20 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["NamingConfigResource"]
-          "text/json": components["schemas"]["NamingConfigResource"]
-          "application/*+json": components["schemas"]["NamingConfigResource"]
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["NamingConfigResource"]
             "application/json": components["schemas"]["NamingConfigResource"]
-            "text/json": components["schemas"]["NamingConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5186,7 +5522,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["NamingExampleResource"]
+          }
         }
       }
     }
@@ -5239,12 +5577,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["NotificationResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5276,10 +5619,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["NotificationResource"]
             "application/json": components["schemas"]["NotificationResource"]
-            "text/json": components["schemas"]["NotificationResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5300,12 +5646,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["NotificationResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5324,7 +5675,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -5390,8 +5743,8 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** No Content */
+        204: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -5424,7 +5777,16 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["ProviderTestAllResult"][]
+          }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["ProviderTestAllResult"][]
+          }
         }
       }
     }
@@ -5458,8 +5820,8 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Bad Request */
+        400: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -5493,9 +5855,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ParseResource"]
             "application/json": components["schemas"]["ParseResource"]
-            "text/json": components["schemas"]["ParseResource"]
           }
         }
       }
@@ -5531,6 +5891,13 @@ export interface paths {
             "application/json": components["schemas"]["PingResource"]
           }
         }
+        /** Internal Server Error */
+        500: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["PingResource"]
+          }
+        }
       }
     }
     put?: never
@@ -5548,6 +5915,13 @@ export interface paths {
       responses: {
         /** OK */
         200: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["PingResource"]
+          }
+        }
+        /** Internal Server Error */
+        500: {
           headers: Record<string, unknown>
           content: {
             "application/json": components["schemas"]["PingResource"]
@@ -5580,10 +5954,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["QualityDefinitionResource"]
             "application/json": components["schemas"]["QualityDefinitionResource"]
-            "text/json": components["schemas"]["QualityDefinitionResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5599,19 +5976,20 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["QualityDefinitionResource"]
-          "text/json": components["schemas"]["QualityDefinitionResource"]
-          "application/*+json": components["schemas"]["QualityDefinitionResource"]
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["QualityDefinitionResource"]
             "application/json": components["schemas"]["QualityDefinitionResource"]
-            "text/json": components["schemas"]["QualityDefinitionResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5642,9 +6020,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["QualityDefinitionResource"][]
             "application/json": components["schemas"]["QualityDefinitionResource"][]
-            "text/json": components["schemas"]["QualityDefinitionResource"][]
           }
         }
       }
@@ -5675,15 +6051,15 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["QualityDefinitionResource"][]
-          "text/json": components["schemas"]["QualityDefinitionResource"][]
-          "application/*+json": components["schemas"]["QualityDefinitionResource"][]
         }
       }
       responses: {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["QualityDefinitionResource"][]
+          }
         }
       }
     }
@@ -5714,9 +6090,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["QualityDefinitionLimitsResource"]
             "application/json": components["schemas"]["QualityDefinitionLimitsResource"]
-            "text/json": components["schemas"]["QualityDefinitionLimitsResource"]
           }
         }
       }
@@ -5749,9 +6123,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["QualityProfileResource"][]
             "application/json": components["schemas"]["QualityProfileResource"][]
-            "text/json": components["schemas"]["QualityProfileResource"][]
           }
         }
       }
@@ -5770,14 +6142,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["QualityProfileResource"]
             "application/json": components["schemas"]["QualityProfileResource"]
-            "text/json": components["schemas"]["QualityProfileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5809,10 +6184,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["QualityProfileResource"]
             "application/json": components["schemas"]["QualityProfileResource"]
-            "text/json": components["schemas"]["QualityProfileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5831,14 +6209,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["QualityProfileResource"]
             "application/json": components["schemas"]["QualityProfileResource"]
-            "text/json": components["schemas"]["QualityProfileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -5886,9 +6267,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["QualityProfileResource"]
             "application/json": components["schemas"]["QualityProfileResource"]
-            "text/json": components["schemas"]["QualityProfileResource"]
           }
         }
       }
@@ -5932,6 +6311,11 @@ export interface paths {
           headers: Record<string, unknown>
           content?: never
         }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     options?: never
@@ -5964,15 +6348,15 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["QueueBulkResource"]
-          "text/json": components["schemas"]["QueueBulkResource"]
-          "application/*+json": components["schemas"]["QueueBulkResource"]
         }
       }
       responses: {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": unknown
+          }
         }
       }
     }
@@ -6049,6 +6433,13 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
+          content: {
+            "application/json": unknown
+          }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
           content?: never
         }
       }
@@ -6084,6 +6475,13 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
+          content: {
+            "application/json": unknown
+          }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
           content?: never
         }
       }
@@ -6117,9 +6515,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["QueueResource"][]
             "application/json": components["schemas"]["QueueResource"][]
-            "text/json": components["schemas"]["QueueResource"][]
           }
         }
       }
@@ -6152,9 +6548,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["QueueStatusResource"]
             "application/json": components["schemas"]["QueueStatusResource"]
-            "text/json": components["schemas"]["QueueStatusResource"]
           }
         }
       }
@@ -6192,6 +6586,11 @@ export interface paths {
             "application/json": components["schemas"]["ReleaseResource"][]
           }
         }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content?: never
+        }
       }
     }
     put?: never
@@ -6210,6 +6609,13 @@ export interface paths {
       responses: {
         /** OK */
         200: {
+          headers: Record<string, unknown>
+          content: {
+            "application/json": components["schemas"]["ReleaseResource"]
+          }
+        }
+        /** Not Found */
+        404: {
           headers: Record<string, unknown>
           content?: never
         }
@@ -6241,9 +6647,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ReleaseProfileResource"][]
             "application/json": components["schemas"]["ReleaseProfileResource"][]
-            "text/json": components["schemas"]["ReleaseProfileResource"][]
           }
         }
       }
@@ -6259,19 +6663,20 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["ReleaseProfileResource"]
-          "text/json": components["schemas"]["ReleaseProfileResource"]
-          "application/*+json": components["schemas"]["ReleaseProfileResource"]
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ReleaseProfileResource"]
             "application/json": components["schemas"]["ReleaseProfileResource"]
-            "text/json": components["schemas"]["ReleaseProfileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -6303,10 +6708,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ReleaseProfileResource"]
             "application/json": components["schemas"]["ReleaseProfileResource"]
-            "text/json": components["schemas"]["ReleaseProfileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -6322,19 +6730,20 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["ReleaseProfileResource"]
-          "text/json": components["schemas"]["ReleaseProfileResource"]
-          "application/*+json": components["schemas"]["ReleaseProfileResource"]
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ReleaseProfileResource"]
             "application/json": components["schemas"]["ReleaseProfileResource"]
-            "text/json": components["schemas"]["ReleaseProfileResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -6388,10 +6797,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["ReleaseResource"][]
             "application/json": components["schemas"]["ReleaseResource"][]
-            "text/json": components["schemas"]["ReleaseResource"][]
           }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -6421,9 +6833,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["RemotePathMappingResource"][]
             "application/json": components["schemas"]["RemotePathMappingResource"][]
-            "text/json": components["schemas"]["RemotePathMappingResource"][]
           }
         }
       }
@@ -6442,14 +6852,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["RemotePathMappingResource"]
             "application/json": components["schemas"]["RemotePathMappingResource"]
-            "text/json": components["schemas"]["RemotePathMappingResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -6481,10 +6894,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["RemotePathMappingResource"]
             "application/json": components["schemas"]["RemotePathMappingResource"]
-            "text/json": components["schemas"]["RemotePathMappingResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -6500,8 +6916,6 @@ export interface paths {
       requestBody?: {
         content: {
           "application/json": components["schemas"]["RemotePathMappingResource"]
-          "text/json": components["schemas"]["RemotePathMappingResource"]
-          "application/*+json": components["schemas"]["RemotePathMappingResource"]
         }
       }
       responses: {
@@ -6509,10 +6923,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["RemotePathMappingResource"]
             "application/json": components["schemas"]["RemotePathMappingResource"]
-            "text/json": components["schemas"]["RemotePathMappingResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -6562,10 +6979,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["RenameMovieResource"][]
             "application/json": components["schemas"]["RenameMovieResource"][]
-            "text/json": components["schemas"]["RenameMovieResource"][]
           }
+        }
+        /** Bad Request */
+        400: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -6597,9 +7017,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["RootFolderResource"][]
             "application/json": components["schemas"]["RootFolderResource"][]
-            "text/json": components["schemas"]["RootFolderResource"][]
           }
         }
       }
@@ -6618,14 +7036,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["RootFolderResource"]
             "application/json": components["schemas"]["RootFolderResource"]
-            "text/json": components["schemas"]["RootFolderResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -6657,10 +7078,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["RootFolderResource"]
             "application/json": components["schemas"]["RootFolderResource"]
-            "text/json": components["schemas"]["RootFolderResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -6684,6 +7108,37 @@ export interface paths {
         }
       }
     }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  "/loggedout": {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** OK */
+        200: {
+          headers: Record<string, unknown>
+          content?: never
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
     options?: never
     head?: never
     patch?: never
@@ -6808,9 +7263,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["SystemResource"]
             "application/json": components["schemas"]["SystemResource"]
-            "text/json": components["schemas"]["SystemResource"]
           }
         }
       }
@@ -6842,7 +7295,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "text/plain": string
+          }
         }
       }
     }
@@ -6873,7 +7328,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": Record<string, string[]>
+          }
         }
       }
     }
@@ -6906,7 +7363,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["SystemShutdownResource"]
+          }
         }
       }
     }
@@ -6937,7 +7396,9 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
-          content?: never
+          content: {
+            "application/json": components["schemas"]["SystemRestartResource"]
+          }
         }
       }
     }
@@ -6967,9 +7428,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["TagResource"][]
             "application/json": components["schemas"]["TagResource"][]
-            "text/json": components["schemas"]["TagResource"][]
           }
         }
       }
@@ -6988,14 +7447,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Created */
+        201: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["TagResource"]
             "application/json": components["schemas"]["TagResource"]
-            "text/json": components["schemas"]["TagResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -7027,10 +7489,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["TagResource"]
             "application/json": components["schemas"]["TagResource"]
-            "text/json": components["schemas"]["TagResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -7049,14 +7514,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["TagResource"]
             "application/json": components["schemas"]["TagResource"]
-            "text/json": components["schemas"]["TagResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -7104,9 +7572,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["TagDetailsResource"][]
             "application/json": components["schemas"]["TagDetailsResource"][]
-            "text/json": components["schemas"]["TagDetailsResource"][]
           }
         }
       }
@@ -7141,10 +7607,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["TagDetailsResource"]
             "application/json": components["schemas"]["TagDetailsResource"]
-            "text/json": components["schemas"]["TagDetailsResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -7176,9 +7645,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["TaskResource"][]
             "application/json": components["schemas"]["TaskResource"][]
-            "text/json": components["schemas"]["TaskResource"][]
           }
         }
       }
@@ -7213,10 +7680,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["TaskResource"]
             "application/json": components["schemas"]["TaskResource"]
-            "text/json": components["schemas"]["TaskResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -7250,10 +7720,13 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["UiConfigResource"]
             "application/json": components["schemas"]["UiConfigResource"]
-            "text/json": components["schemas"]["UiConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -7272,14 +7745,17 @@ export interface paths {
         }
       }
       responses: {
-        /** OK */
-        200: {
+        /** Accepted */
+        202: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["UiConfigResource"]
             "application/json": components["schemas"]["UiConfigResource"]
-            "text/json": components["schemas"]["UiConfigResource"]
           }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
+          content?: never
         }
       }
     }
@@ -7343,9 +7819,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["UpdateResource"][]
             "application/json": components["schemas"]["UpdateResource"][]
-            "text/json": components["schemas"]["UpdateResource"][]
           }
         }
       }
@@ -7378,9 +7852,7 @@ export interface paths {
         200: {
           headers: Record<string, unknown>
           content: {
-            "text/plain": components["schemas"]["LogFileResource"][]
             "application/json": components["schemas"]["LogFileResource"][]
-            "text/json": components["schemas"]["LogFileResource"][]
           }
         }
       }
@@ -7414,6 +7886,13 @@ export interface paths {
         /** OK */
         200: {
           headers: Record<string, unknown>
+          content: {
+            "text/plain": string
+          }
+        }
+        /** Not Found */
+        404: {
+          headers: Record<string, unknown>
           content?: never
         }
       }
@@ -7439,6 +7918,15 @@ export interface components {
       searchForMovie?: boolean
       addMethod?: components["schemas"]["AddMovieMethod"]
     }
+    AlternativeTitle: {
+      /** Format: int32 */
+      id?: number
+      sourceType?: components["schemas"]["SourceType"]
+      /** Format: int32 */
+      movieMetadataId?: number
+      title?: string | null
+      cleanTitle?: string | null
+    }
     AlternativeTitleResource: {
       /** Format: int32 */
       id?: number
@@ -7455,9 +7943,9 @@ export interface components {
     /** @enum {string} */
     ApplyTags: "add" | "remove" | "replace"
     /** @enum {string} */
-    AuthenticationRequiredType: "enabled" | "disabledForLocalAddresses"
+    AuthenticationRequiredType: "enabled" | "disabledForLocalAddresses" | "disabledForLocalhost"
     /** @enum {string} */
-    AuthenticationType: "none" | "basic" | "forms" | "external"
+    AuthenticationType: "none" | "basic" | "forms" | "external" | "oidc"
     AutoTaggingResource: {
       /** Format: int32 */
       id?: number
@@ -7486,6 +7974,12 @@ export interface components {
       size?: number
       /** Format: date-time */
       time?: string
+    }
+    BackupRestoreErrorResource: {
+      error?: string | null
+    }
+    BackupRestoreResource: {
+      restartRequired?: boolean
     }
     /** @enum {string} */
     BackupType: "scheduled" | "manual" | "update"
@@ -7786,6 +8280,31 @@ export interface components {
     /** @enum {string} */
     FileDateType: "none" | "cinemas" | "release"
     /** @enum {string} */
+    FileSystemEntityType: "parent" | "drive" | "folder" | "file"
+    FileSystemMediaFileResource: {
+      path?: string | null
+      relativePath?: string | null
+      name?: string | null
+    }
+    FileSystemModel: {
+      type?: components["schemas"]["FileSystemEntityType"]
+      name?: string | null
+      path?: string | null
+      extension?: string | null
+      /** Format: int64 */
+      size?: number
+      /** Format: date-time */
+      lastModified?: string | null
+    }
+    FileSystemResult: {
+      parent?: string | null
+      directories?: components["schemas"]["FileSystemModel"][] | null
+      files?: components["schemas"]["FileSystemModel"][] | null
+    }
+    FileSystemTypeResource: {
+      type?: components["schemas"]["FileSystemEntityType"]
+    }
+    /** @enum {string} */
     HealthCheckResult: "ok" | "notice" | "warning" | "error"
     HealthResource: {
       /** Format: int32 */
@@ -7837,10 +8356,16 @@ export interface components {
       launchBrowser?: boolean
       authenticationMethod?: components["schemas"]["AuthenticationType"]
       authenticationRequired?: components["schemas"]["AuthenticationRequiredType"]
+      allowedHosts?: string | null
       analyticsEnabled?: boolean
       username?: string | null
       password?: string | null
       passwordConfirmation?: string | null
+      oidcAuthority?: string | null
+      oidcClientId?: string | null
+      oidcClientSecret?: string | null
+      oidcUserIdentifier?: string | null
+      oidcScopes?: string | null
       logLevel?: string | null
       /** Format: int32 */
       logSizeLimit?: number
@@ -7848,8 +8373,10 @@ export interface components {
       branch?: string | null
       apiKey?: string | null
       sslCertPath?: string | null
+      sslKeyPath?: string | null
       sslCertPassword?: string | null
       urlBase?: string | null
+      trustedNetworks?: string | null
       instanceName?: string | null
       applicationUrl?: string | null
       updateAutomatically?: boolean
@@ -7919,6 +8446,46 @@ export interface components {
       /** Format: int32 */
       totalRecords?: number
       records?: components["schemas"]["ImportListExclusionResource"][] | null
+    }
+    ImportListMoviesResource: {
+      /** Format: int32 */
+      id?: number
+      title?: string | null
+      sortTitle?: string | null
+      originalLanguage?: components["schemas"]["Language"]
+      status?: components["schemas"]["MovieStatusType"]
+      overview?: string | null
+      /** Format: date-time */
+      inCinemas?: string | null
+      /** Format: date-time */
+      physicalRelease?: string | null
+      /** Format: date-time */
+      digitalRelease?: string | null
+      images?: components["schemas"]["MediaCover"][] | null
+      website?: string | null
+      remotePoster?: string | null
+      /** Format: int32 */
+      year?: number
+      youTubeTrailerId?: string | null
+      studio?: string | null
+      /** Format: int32 */
+      runtime?: number
+      imdbId?: string | null
+      /** Format: int32 */
+      tmdbId?: number
+      folder?: string | null
+      certification?: string | null
+      /** Format: float */
+      popularity?: number
+      genres?: string[] | null
+      ratings?: components["schemas"]["Ratings"]
+      collection?: components["schemas"]["MovieCollection"]
+      isExcluded?: boolean
+      isExisting?: boolean
+      isTrending?: boolean
+      isPopular?: boolean
+      isRecommendation?: boolean
+      lists?: number[] | null
     }
     ImportListResource: {
       /** Format: int32 */
@@ -8179,6 +8746,29 @@ export interface components {
     Modifier: "none" | "regional" | "screener" | "rawhd" | "brdisk" | "remux"
     /** @enum {string} */
     MonitorTypes: "movieOnly" | "movieAndCollection" | "none"
+    MovieCollection: {
+      /** Format: int32 */
+      id?: number
+      title?: string | null
+      cleanTitle?: string | null
+      sortTitle?: string | null
+      /** Format: int32 */
+      tmdbId?: number
+      overview?: string | null
+      monitored?: boolean
+      /** Format: int32 */
+      qualityProfileId?: number
+      rootFolderPath?: string | null
+      searchOnAdd?: boolean
+      minimumAvailability?: components["schemas"]["MovieStatusType"]
+      /** Format: date-time */
+      lastInfoSync?: string | null
+      images?: components["schemas"]["MediaCover"][] | null
+      /** Format: date-time */
+      added?: string
+      movies?: components["schemas"]["MovieMetadata"][] | null
+      tags?: number[] | null
+    }
     MovieCollectionResource: {
       title?: string | null
       /** Format: int32 */
@@ -8232,6 +8822,9 @@ export interface components {
       originalFilePath?: string | null
       qualityCutoffNotMet?: boolean
     }
+    MovieFolderResource: {
+      folder?: string | null
+    }
     /** @enum {string} */
     MovieHistoryEventType:
       | "unknown"
@@ -8242,6 +8835,52 @@ export interface components {
       | "movieFolderImported"
       | "movieFileRenamed"
       | "downloadIgnored"
+    MovieMetadata: {
+      /** Format: int32 */
+      id?: number
+      /** Format: int32 */
+      tmdbId?: number
+      images?: components["schemas"]["MediaCover"][] | null
+      genres?: string[] | null
+      keywords?: string[] | null
+      /** Format: date-time */
+      inCinemas?: string | null
+      /** Format: date-time */
+      physicalRelease?: string | null
+      /** Format: date-time */
+      digitalRelease?: string | null
+      certification?: string | null
+      /** Format: int32 */
+      year?: number
+      ratings?: components["schemas"]["Ratings"]
+      /** Format: int32 */
+      collectionTmdbId?: number
+      collectionTitle?: string | null
+      /** Format: date-time */
+      lastInfoSync?: string | null
+      /** Format: int32 */
+      runtime?: number
+      website?: string | null
+      imdbId?: string | null
+      title?: string | null
+      cleanTitle?: string | null
+      sortTitle?: string | null
+      status?: components["schemas"]["MovieStatusType"]
+      overview?: string | null
+      alternativeTitles?: components["schemas"]["AlternativeTitle"][] | null
+      translations?: components["schemas"]["MovieTranslation"][] | null
+      /** Format: int32 */
+      secondaryYear?: number | null
+      youTubeTrailerId?: string | null
+      studio?: string | null
+      originalTitle?: string | null
+      cleanOriginalTitle?: string | null
+      originalLanguage?: components["schemas"]["Language"]
+      recommendations?: number[] | null
+      /** Format: float */
+      popularity?: number
+      readonly isRecentMovie?: boolean
+    }
     MovieResource: {
       /** Format: int32 */
       id?: number
@@ -8328,9 +8967,20 @@ export interface components {
       /** Format: int64 */
       sizeOnDisk?: number
       releaseGroups?: string[] | null
+      movieFileQualities?: components["schemas"]["Quality"][] | null
     }
     /** @enum {string} */
     MovieStatusType: "tba" | "announced" | "inCinemas" | "released" | "deleted"
+    MovieTranslation: {
+      /** Format: int32 */
+      id?: number
+      /** Format: int32 */
+      movieMetadataId?: number
+      title?: string | null
+      cleanTitle?: string | null
+      overview?: string | null
+      language?: components["schemas"]["Language"]
+    }
     NamingConfigResource: {
       /** Format: int32 */
       id?: number
@@ -8339,6 +8989,10 @@ export interface components {
       colonReplacementFormat?: components["schemas"]["ColonReplacementFormat"]
       standardMovieFormat?: string | null
       movieFolderFormat?: string | null
+    }
+    NamingExampleResource: {
+      movieExample?: string | null
+      movieFolderExample?: string | null
     }
     NotificationResource: {
       /** Format: int32 */
@@ -8415,6 +9069,14 @@ export interface components {
     }
     /** @enum {string} */
     PrivacyLevel: "normal" | "password" | "apiKey" | "userName"
+    ProblemDetails: {
+      type?: string | null
+      title?: string | null
+      /** Format: int32 */
+      status?: number | null
+      detail?: string | null
+      instance?: string | null
+    } & Record<string, unknown>
     ProfileFormatItemResource: {
       /** Format: int32 */
       id?: number
@@ -8432,6 +9094,12 @@ export interface components {
     }
     /** @enum {string} */
     ProviderMessageType: "info" | "warning" | "error"
+    ProviderTestAllResult: {
+      /** Format: int32 */
+      id?: number
+      readonly isValid?: boolean
+      validationFailures?: components["schemas"]["ValidationFailure"][] | null
+    }
     /** @enum {string} */
     ProxyType: "http" | "socks4" | "socks5"
     Quality: {
@@ -8604,6 +9272,12 @@ export interface components {
     }
     /** @enum {string} */
     RejectionType: "permanent" | "temporary"
+    ReleaseHistoryResource: {
+      /** Format: date-time */
+      grabbed?: string | null
+      /** Format: date-time */
+      failed?: string | null
+    }
     ReleaseProfileResource: {
       /** Format: int32 */
       id?: number
@@ -8623,6 +9297,7 @@ export interface components {
       customFormats?: components["schemas"]["CustomFormatResource"][] | null
       /** Format: int32 */
       customFormatScore?: number
+      history?: components["schemas"]["ReleaseHistoryResource"]
       /** Format: int32 */
       qualityWeight?: number
       /** Format: int32 */
@@ -8725,6 +9400,8 @@ export interface components {
       dividerAfter?: boolean
     }
     /** @enum {string} */
+    Severity: "error" | "warning" | "info"
+    /** @enum {string} */
     SortDirection: "default" | "ascending" | "descending"
     /** @enum {string} */
     SourceType: "tmdb" | "mappings" | "user" | "indexer"
@@ -8747,6 +9424,7 @@ export interface components {
       isOsx?: boolean
       isWindows?: boolean
       isDocker?: boolean
+      isContainerized?: boolean
       mode?: components["schemas"]["RuntimeMode"]
       branch?: string | null
       databaseType?: components["schemas"]["DatabaseType"]
@@ -8763,6 +9441,12 @@ export interface components {
       packageAuthor?: string | null
       packageUpdateMechanism?: components["schemas"]["UpdateMechanism"]
       packageUpdateMechanismMessage?: string | null
+    }
+    SystemRestartResource: {
+      restarting?: boolean
+    }
+    SystemShutdownResource: {
+      shuttingDown?: boolean
     }
     /** @enum {string} */
     TMDbCountryCode: "au" | "br" | "ca" | "fr" | "de" | "gb" | "in" | "ie" | "it" | "nz" | "ro" | "es" | "us"
@@ -8861,6 +9545,17 @@ export interface components {
       latest?: boolean
       changes?: components["schemas"]["UpdateChanges"]
       hash?: string | null
+    }
+    ValidationFailure: {
+      propertyName?: string | null
+      errorMessage?: string | null
+      attemptedValue?: unknown
+      customState?: unknown
+      severity?: components["schemas"]["Severity"]
+      errorCode?: string | null
+      /** @deprecated */
+      formattedMessageArguments?: unknown[] | null
+      formattedMessagePlaceholderValues?: Record<string, unknown> | null
     }
   }
   responses: never

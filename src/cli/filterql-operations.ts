@@ -33,7 +33,7 @@ export const customOperations: OperationMap = {
     const fields = args.map((field) => resolveField(field)).filter((field) => field !== undefined)
 
     const dataAfterExcludes = data.map((obj) => omit(obj, fields))
-    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion - EXCLUDE drops fields, but operations must return the input type
     return dataAfterExcludes as typeof data
   },
 }

@@ -1,7 +1,7 @@
 import process from "node:process"
 
 import type { Result } from "ts-explicit-errors"
-import { attempt, err, isErr } from "ts-explicit-errors"
+import { attempt, err, isErr, messageChain } from "ts-explicit-errors"
 
 import { getServiceInfo } from "#cli/cli.ts"
 import type { JsonifiableMediaData } from "#cli/types.ts"
@@ -49,7 +49,7 @@ const inspectarr = async (): Promise<Result> => {
 const main = async (): Promise<number> => {
   const result = await inspectarr()
   if (isErr(result)) {
-    console.error(result.messageChain)
+    console.error(messageChain(result))
     return 1
   }
   return 0
